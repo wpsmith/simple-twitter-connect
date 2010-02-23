@@ -77,9 +77,14 @@ However, it is almost always possible to correct this with some simple CSS adjus
 
 Twitter offers no way to get a valid email address for a user. So the comments plugin uses a fake address of the twitter's username @fake.twitter.com. The "fake" is the giveaway here.
 
+= When users connect using Twitter on the Comments section, there's a delay before their info appears. =
+
+Yes. In order to make the plugin more compatible with caching plugins like WP-Super-Cache, the data for a Twitter connect account is retreived from the server using an AJAX request. This means that there will be a slight delay while the data is retrieved, but the page has already been loaded and displayed. Most of the time this will not be noticable.
+
+
 == Screenshots ==
 
-1. Login screen showing both Simple Facebook Connect and Simplw Twitter Connect login buttons.
+1. Login screen showing both Simple Facebook Connect and Simple Twitter Connect login buttons.
 2. Twitter Connect on My Profile screen.
 3. Simple Facebook Connect and Simple Twitter Connect button on comments form.
 4. Login info (before styling) after using Twitter connect button on comments form.

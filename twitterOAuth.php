@@ -9,7 +9,7 @@
  * Fire Eagle code - http://github.com/myelin/fireeagle-php-lib
  * twitterlibphp - http://github.com/poseurtech/twitterlibphp
  * 
- * Modified for more standardized WordPress HTTP API support by Otto - otto@ottodestruct.com
+ * Modified for standard WordPress HTTP API support by Otto - otto@ottodestruct.com
  *
  */
 
@@ -19,7 +19,7 @@ require_once('OAuth.php');
 /**
  * Twitter OAuth class
  */
-class TwitterOAuth {/*{{{*/
+class TwitterOAuth {
   /* Contains the last HTTP status code returned */
   private $http_status;
 
@@ -46,7 +46,7 @@ class TwitterOAuth {/*{{{*/
   /**
    * construct TwitterOAuth object
    */
-  function __construct($consumer_key, $consumer_secret, $oauth_token = NULL, $oauth_token_secret = NULL) {/*{{{*/
+  function __construct($consumer_key, $consumer_secret, $oauth_token = NULL, $oauth_token_secret = NULL) {
     $this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
     $this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
     if (!empty($oauth_token) && !empty($oauth_token_secret)) {
@@ -54,7 +54,7 @@ class TwitterOAuth {/*{{{*/
     } else {
       $this->token = NULL;
     }
-  }/*}}}*/
+  }
 
 
   /**
@@ -62,12 +62,12 @@ class TwitterOAuth {/*{{{*/
    *
    * @returns a key/value array containing oauth_token and oauth_token_secret
    */
-  function getRequestToken() {/*{{{*/
+  function getRequestToken() {
     $r = $this->oAuthRequest($this->requestTokenURL());
     $token = $this->oAuthParseResponse($r);
     $this->token = new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
     return $token;
-  }/*}}}*/
+  }
 
   /**
    * Parse a URL-encoded OAuth response
@@ -89,10 +89,10 @@ class TwitterOAuth {/*{{{*/
    *
    * @returns a string
    */
-  function getAuthorizeURL($token) {/*{{{*/
+  function getAuthorizeURL($token) {
     if (is_array($token)) $token = $token['oauth_token'];
     return $this->authorizeURL() . '?oauth_token=' . $token;
-  }/*}}}*/
+  }
 
 
   /**
@@ -100,10 +100,10 @@ class TwitterOAuth {/*{{{*/
    *
    * @returns a string
    */
-  function getAuthenticateURL($token) {/*{{{*/
+  function getAuthenticateURL($token) {
     if (is_array($token)) $token = $token['oauth_token'];
     return $this->authenticateURL() . '?oauth_token=' . $token;
-  }/*}}}*/
+  }
   
   /**
    * Exchange the request token and secret for an access token and
@@ -112,17 +112,17 @@ class TwitterOAuth {/*{{{*/
    * @returns array("oauth_token" => the access token,
    *                "oauth_token_secret" => the access secret)
    */
-  function getAccessToken($token = NULL) {/*{{{*/
+  function getAccessToken($token = NULL) {
     $r = $this->oAuthRequest($this->accessTokenURL());
     $token = $this->oAuthParseResponse($r);
     $this->token = new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
     return $token;
-  }/*}}}*/
+  }
 
   /**
    * Format and sign an OAuth / API request
    */
-  function oAuthRequest($url, $args = array(), $method = NULL) {/*{{{*/
+  function oAuthRequest($url, $args = array(), $method = NULL) {
     if (empty($method)) $method = empty($args) ? "GET" : "POST";
     $req = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $args);
     $req->sign_request($this->sha1_method, $this->consumer, $this->token);
@@ -137,7 +137,8 @@ class TwitterOAuth {/*{{{*/
        	break;
 	case 'POST':
 		$url = $req->get_normalized_http_url();
-       	$response = wp_remote_post( $url, array('body'=>$req->to_postdata()));
+		$args = wp_parse_args($req->to_postdata());
+       	$response = wp_remote_post( $url, array('body'=>$args));
        	break;
     }
 
@@ -147,36 +148,5 @@ class TwitterOAuth {/*{{{*/
     $this->last_api_call = $url;
 
 	return $response['body'];	
-  }/*}}}*/
-
-  /**
-   * Make an HTTP request
-   *
-   * @return API results
-   */
-  
-  /* We don't use this anymore - Otto
-  function http($url, $post_data = null) {
-    $ch = curl_init();
-    if (defined("CURL_CA_BUNDLE_PATH")) curl_setopt($ch, CURLOPT_CAINFO, CURL_CA_BUNDLE_PATH);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    //////////////////////////////////////////////////
-    ///// Set to 1 to verify Twitter's SSL Cert //////
-    //////////////////////////////////////////////////
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-    if (isset($post_data)) {
-      curl_setopt($ch, CURLOPT_POST, 1);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-    }
-    $response = curl_exec($ch);
-    $this->http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $this->last_api_call = $url;
-    curl_close ($ch);
-    return $response;
-  }
-  */
-  
-}/*}}}*/
+  } 
+}

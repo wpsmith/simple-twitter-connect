@@ -4,7 +4,7 @@ Plugin Name: STC - Comments
 Plugin URI: http://ottodestruct.com/blog/wordpress-plugins/simple-twitter-connect/
 Description: Comments plugin for STC (for sites that allow non-logged in commenting).
 Author: Otto
-Version: 0.1
+Version: 0.2
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -55,7 +55,7 @@ function stc_comm_activation_check(){
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-	wp_die("The base SFC plugin must be activated before this plugin will run.");
+	wp_die("The base stc plugin must be activated before this plugin will run.");
 }
 register_activation_hook(__FILE__, 'stc_comm_activation_check');
 
@@ -63,6 +63,29 @@ register_activation_hook(__FILE__, 'stc_comm_activation_check');
 add_action('wp_enqueue_scripts','stc_comm_jquery');
 function stc_comm_jquery() {
 	wp_enqueue_script('jquery');
+	wp_enqueue_script('google-jsapi','http://www.google.com/jsapi');
+}
+
+// add the admin sections to the stc page
+add_action('admin_init', 'stc_comm_admin_init');
+function stc_comm_admin_init() {
+	add_settings_section('stc_comm', 'Comment Settings', 'stc_comm_section_callback', 'stc');
+	add_settings_field('stc_comm_text', 'Comment Tweet Text', 'stc_comm_text', 'stc', 'stc_comm');
+}
+
+
+
+function stc_comm_section_callback() {
+?>
+<p>Define how you want the Tweet for Comments to be formatted. Use the % symbol in place of the link to the post.</p>
+<?php 
+}
+
+function stc_comm_text() {
+	$options = get_option('stc_options');
+	if (!$options['comment_text']) $options['comment_text'] = 'Just left a comment on %';
+
+	echo "<input type='text' name='stc_options[comment_text]' value='{$options['comment_text']}' size='40' />";	
 }
 
 // set a variable to know when we are showing comments (no point in adding js to other pages)
@@ -70,6 +93,12 @@ add_action('comment_form','stc_comm_comments_enable');
 function stc_comm_comments_enable() {
 	global $stc_comm_comments_form;
 	$stc_comm_comments_form = true;
+}
+
+// add span for sending comment to twitter checkbox
+add_action('comment_form','stc_comm_send_span');
+function stc_comm_send_span() {
+?><p id="stc_comm_send"></p><?php
 }
 
 // hook to the footer to add our scripting
@@ -90,6 +119,12 @@ function stc_comm_footer_script() {
 		jQuery.post(ajax_url, data, function(response) {
 			if (response != '0') {
 				jQuery('#comment-user-details').hide().after(response);
+				jQuery('#stc_comm_send').html('<input style="width: auto;" type="checkbox" name="stc_comm_send" value="send"/><label for="stc_comm_send">Send Comment to Twitter</label><input type="hidden" id="stc_lat" name="stc_lat" /><input type="hidden" id="stc_long" name="stc_long" />');
+				
+				if (google.loader.ClientLocation) {
+					jQuery('#stc_lat').val(google.loader.ClientLocation.latitude);
+					jQuery('#stc_long').val(google.loader.ClientLocation.longitude);
+				}
 			}
 		});
 	});
@@ -112,6 +147,44 @@ function stc_comm_get_display() {
 	echo 0;
 	exit;
 }
+
+add_action('comment_post','stc_comm_send_to_twitter');
+function stc_comm_send_to_twitter() {
+	$options = get_option('stc_options');
+
+	$postid = (int) $_POST['comment_post_ID'];
+	if (!$postid) return;
+	
+	// send the comment to twitter
+	if ($_POST['stc_comm_send'] == 'send') {
+	
+		// args to send to twitter
+		$args=array();
+	
+		// check for coords from the post
+		$lat = (double) $_POST['stc_lat'];
+		$long = (double) $_POST['stc_long'];
+
+		if ($lat != 0 && $long !=0) {
+			// we got coords, include them
+			$args['lat'] = $lat;
+			$args['long'] = $long;
+		}
+
+		if (function_exists('get_shortlink')) {
+			// use the shortlink if it's available
+			$link = get_shortlink($postid);
+		} else {
+			// use the full permalink (twitter will shorten for you)
+			$link = get_permalink($postid);
+		}
+		
+		$args['status'] = str_replace('%',$link, $options['comment_text']);
+		
+		$resp = stc_do_request('http://api.twitter.com/1/statuses/update',$args);
+	}
+}
+
 
 // this bit is to allow the user to add the relevant comments login button to the comments form easily
 // user need only stick a do_action('alt_comment_login'); wherever he wants the button to display

@@ -4,7 +4,7 @@ Plugin Name: Simple Twitter Connect
 Plugin URI: http://ottodestruct.com/blog/wordpress-plugins/simple-twitter-connect/
 Description: Makes it easy for your site to use Twitter, in a wholly modular way.
 Author: Otto
-Version: 0.1
+Version: 0.2
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -105,7 +105,7 @@ function stc_options_page() {
 	</td><td style='vertical-align:top;'>
 	<div style='width:20em; float:right; background: #ffc; border: 1px solid #333; margin: 2px; padding: 5px'>
 			<h3 align='center'>About the Author</h3>
-		<p><a href="http://ottodestruct.com/blog/wordpress-plugins/simple-facebook-connect/">Simple Twitter Connect</a> is developed and maintained by <a href="http://ottodestruct.com">Otto</a>.</p>
+		<p><a href="http://ottodestruct.com/blog/wordpress-plugins/simple-twitter-connect/">Simple Twitter Connect</a> is developed and maintained by <a href="http://ottodestruct.com">Otto</a>.</p>
 			<p>He blogs at <a href="http://ottodestruct.com">Nothing To See Here</a>, posts photos on <a href="http://www.flickr.com/photos/otto42/">Flickr</a>, and chats on <a href="http://twitter.com/otto42">Twitter</a>.</p>
 			<p>You can follow his site on either <a href="http://www.facebook.com/apps/application.php?id=116002660893">Facebook</a> or <a href="http://twitter.com/ottodestruct">Twitter</a>, if you like.</p>
 			<p>If you'd like to <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom">buy him a beer</a>, then he'd be perfectly happy to drink it.</p>
@@ -164,20 +164,28 @@ function stc_oauth_confirm() {
 	exit;
 }
 
+// get the user credentials from twitter
 function stc_get_credentials() {
-	if ($_SESSION['stc_credentials']) return $_SESSION['stc_credentials']; // cache the results in the session so we don't do this over and over
+	// cache the results in the session so we don't do this over and over
+	if ($_SESSION['stc_credentials']) return $_SESSION['stc_credentials']; 
 	
+	$_SESSION['stc_credentials'] = stc_do_request('http://twitter.com/account/verify_credentials');
+	
+	return $_SESSION['stc_credentials'];
+}
+
+// json is assumed for this
+function stc_do_request($url, $args = array(), $type = NULL) {
 	$options = get_option('stc_options');
 	if (empty($options['consumer_key']) || empty($options['consumer_secret']) ||
 		empty($_SESSION['stc_acc_token']) || empty($_SESSION['stc_acc_secret']) ) return false;
-		
+
 	include_once "twitterOAuth.php";
 
 	$to = new TwitterOAuth($options['consumer_key'], $options['consumer_secret'], $_SESSION['stc_acc_token'], $_SESSION['stc_acc_secret']);
-	$json = $to->OAuthRequest('http://twitter.com/account/verify_credentials.json', array(), 'GET');
-	$_SESSION['stc_credentials'] = json_decode($json);
-	
-	return $_SESSION['stc_credentials'];
+	$json = $to->OAuthRequest($url.'.json', $args, $type);
+
+	return json_decode($json);
 }
 
 function stc_section_text() {
@@ -185,7 +193,7 @@ function stc_section_text() {
 	if (empty($options['consumer_key']) || empty($options['consumer_secret'])) {
 ?>
 <p>To connect your site to Twitter, you will need a Twitter Application. 
-If you have already created one, please insert your Consumer Key and Consumer Secretbelow.</p>
+If you have already created one, please insert your Consumer Key and Consumer Secret below.</p>
 <p><strong>Can't find your key?</strong></p>
 <ol>
 <li>Get a list of your applications from here: <a target="_blank" href="http://twitter.com/apps">Twitter Application List</a></li>

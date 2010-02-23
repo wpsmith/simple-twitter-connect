@@ -18,10 +18,10 @@ Requires WordPress 2.9 and PHP 5.
 
 * Login using Twitter
 * Comment using Twitter credentials
+* Users can auto-tweet their comments
 
 **Coming soon** 
 
-* Users can auto-tweet their comments
 * Auto-tweet new posts to an account
 * (Got more ideas? Tell me!)
 

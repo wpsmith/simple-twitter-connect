@@ -1,0 +1,88 @@
+=== Simple Twitter Connect ===
+Contributors: Otto
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom
+Tags: twitter, connect, simple, otto, otto42, javascript
+Requires at least: 2.9
+Tested up to: 2.9.2
+Stable tag: trunk
+
+== Description ==
+
+Simple Twitter Connect is a series of plugins that let you add any sort of Twitter functionality you like to a WordPress blog. This lets you have an integrated site without a lot of coding, and still letting you customize it exactly the way you'd like.
+
+First, you activate and set up the base plugin, which makes your site have basic Twitter functionality. Then, each of the add-on plugins will let you add small pieces of specific Twitter-related functionality, one by one.
+
+Requires WordPress 2.9 and PHP 5. 
+
+Current add-ons:
+* Login using Twitter
+* Comment using Twitter credentials
+
+Coming soon:
+* Users can auto-tweet their comments
+* Auto-tweet new posts to an account
+* (Got more ideas? Tell me!)
+
+If you have suggestions for a new add-on, feel free to email me at otto@ottodestruct.com .
+
+Want regular updates? Become a fan of my site on Facebook!
+http://www.facebook.com/apps/application.php?id=116002660893
+
+Or follow my site on Twitter!
+http://twitter.com/ottodestruct
+
+== Installation ==
+
+1. Upload the files to the `/wp-content/plugins/simple-twitter-connect/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
+
+== Frequently Asked Questions ==
+
+= Whoa, what's with all these plugins? =
+
+The principle behind this plugin is to enable small pieces of Twitter functionality, one at a time.
+
+Thus, you have the base plugin, which does nothing except to enable your site for Twitter OAuth in general. It's required by all the other plugins.
+
+Then you have individual plugins, one for each piece of functionality. One for enabling comments, one for adding Login, etc. These are all smaller and simpler, for the most part, because they don't have to add all the Twitter connections stuff that the base plugin adds.
+
+= The comments plugin isn't working! =
+
+You have to modify your theme to use the comments plugin.
+
+In your comments.php file (or wherever your comments form is), you need to do the following.
+
+1. Find the three inputs for the author, email, and url information. They need to have those ID's on the inputs (author, email, url). This is what the default theme and all standardized themes use, but some may be slightly different. You'll have to alter them to have these ID's in that case.
+
+2. Just before the first input, add this code:
+[div id="comment-user-details"]
+[?php do_action('alt_comment_login'); ?]
+
+(Replace the []'s with normal html greater/less than signs).
+
+3. Just below the last input (not the comment text area, just the name/email/url inputs, add this:
+[/div]
+
+That will add the necessary pieces to allow the script to work.
+
+Hopefully, a future version of WordPress will make this simpler.
+
+= Twitter Avatars look wrong. =
+
+Twitter avatars use slightly different code than other avatars. They should style the same, but not all themes will have this working properly, due to various theme designs and such. 
+
+However, it is almost always possible to correct this with some simple CSS adjustments. For this reason, they are given a special "twitter-avatar" class, for you to use to style them as you need. Just use .twitter-avatar in your CSS and add styling rules to correct those specific avatars.
+
+= Why can't I email people who comment using Twitter? =
+
+Twitter offers no way to get a valid email address for a user. So the comments plugin uses a fake address of the twitter's username @fake.twitter.com. The "fake" is the giveaway here.
+
+== Screenshots ==
+
+== Upgrade Notice ==
+
+== Changelog ==
+
+= 0.1 =
+
+* Initial release

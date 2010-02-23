@@ -14,11 +14,13 @@ First, you activate and set up the base plugin, which makes your site have basic
 
 Requires WordPress 2.9 and PHP 5. 
 
-Current add-ons:
+**Current add-ons**
+
 * Login using Twitter
 * Comment using Twitter credentials
 
-Coming soon:
+**Coming soon** 
+
 * Users can auto-tweet their comments
 * Auto-tweet new posts to an account
 * (Got more ideas? Tell me!)

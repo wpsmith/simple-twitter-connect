@@ -1,0 +1,202 @@
+<?php
+/* 
+Plugin Name: STC - Comments
+Plugin URI: http://ottodestruct.com/blog/wordpress-plugins/simple-twitter-connect/
+Description: Comments plugin for STC (for sites that allow non-logged in commenting).
+Author: Otto
+Version: 0.1
+Author URI: http://ottodestruct.com
+License: GPL2
+
+    Copyright 2010  Samuel Wood  (email : otto@ottodestruct.com)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License version 2, 
+    as published by the Free Software Foundation. 
+    
+    You may NOT assume that you can use any other version of the GPL.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    The license for this software can likely be found here: 
+    http://www.gnu.org/licenses/gpl-2.0.html
+
+Usage Note: You have to modify your theme to use this plugin.
+
+In your comments.php file (or wherever your comments form is), you need to do the following.
+
+1. Find the three inputs for the name, email, and url.
+
+2. Just before the first input, add this code:
+<div id="comment-user-details">
+<?php do_action('alt_comment_login'); ?>
+
+3. Just below the last input (not the comment text area, just the name/email/url inputs, add this:
+</div>
+
+That will add the necessary pieces to allow the script to work.
+
+Hopefully, a future version of WordPress will make this simpler.
+
+*/
+
+// if you don't want the plugin to ask for email permission, ever, then define this to true in your wp-config
+if ( !defined('STC_DISABLE_EMAIL_PERMISSION') )
+	define( 'STC_DISABLE_EMAIL_PERMISSION', false ); 
+
+// checks for stc on activation
+function stc_comm_activation_check(){
+	if (function_exists('stc_version')) {
+		if (version_compare(stc_version(), '0.1', '>=')) {
+			return;
+		}
+	}
+	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
+	wp_die("The base SFC plugin must be activated before this plugin will run.");
+}
+register_activation_hook(__FILE__, 'stc_comm_activation_check');
+
+// force load jQuery (we need it later anyway)
+add_action('wp_enqueue_scripts','stc_comm_jquery');
+function stc_comm_jquery() {
+	wp_enqueue_script('jquery');
+}
+
+// set a variable to know when we are showing comments (no point in adding js to other pages)
+add_action('comment_form','stc_comm_comments_enable');
+function stc_comm_comments_enable() {
+	global $stc_comm_comments_form;
+	$stc_comm_comments_form = true;
+}
+
+// hook to the footer to add our scripting
+add_action('wp_footer','stc_comm_footer_script',30); // 30 to ensure we happen after stc base
+function stc_comm_footer_script() {
+	global $stc_comm_comments_form;
+	if ($stc_comm_comments_form != true) return; // nothing to do, not showing comments
+
+	if ( is_user_logged_in() ) return; // don't bother with this stuff for logged in users
+	
+	?>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		var ajax_url = '<?php echo admin_url("admin-ajax.php"); ?>';
+		var data = {
+			action: 'stc_comm_get_display'
+		}
+		jQuery.post(ajax_url, data, function(response) {
+			if (response != '0') {
+				jQuery('#comment-user-details').hide().after(response);
+			}
+		});
+	});
+</script>
+	<?php
+}
+
+//add_action('wp_ajax_stc_comm_get_display', 'stc_comm_get_display');
+add_action('wp_ajax_nopriv_stc_comm_get_display', 'stc_comm_get_display');
+function stc_comm_get_display() {
+	$tw = stc_get_credentials();
+	if ($tw) {
+		echo "<span id='tw-user'>".
+			 "<img src='http://purl.org/net/spiurl/".$tw->screen_name."/original' width='96' height='96' />".
+			 "<span id='tw-msg'><strong>Hi ".$tw->name."!</strong><br />You are connected with your Twitter account. ".
+			 "</span></span>";
+		exit;
+	}
+	
+	echo 0;
+	exit;
+}
+
+// this bit is to allow the user to add the relevant comments login button to the comments form easily
+// user need only stick a do_action('alt_comment_login'); wherever he wants the button to display
+add_action('alt_comment_login','stc_comm_login_button');
+function stc_comm_login_button() {
+	echo '<p>'.stc_get_connect_button('comment').'</p>';
+}
+
+// this exists so that other plugins can hook into the same place to add their login buttons
+if (!function_exists('alt_login_method_div')) {
+add_action('alt_comment_login','alt_login_method_div',1,0);
+function alt_login_method_div() { echo '<div id="alt-login-methods">'; }
+add_action('alt_comment_login','alt_login_method_div_close',20,0);
+function alt_login_method_div_close() { echo '</div>'; }
+}
+
+// generate facebook avatar code for Twitter user comments
+add_filter('get_avatar','stc_comm_avatar', 10, 5);
+function stc_comm_avatar($avatar, $id_or_email, $size, $default, $alt) {
+	// check to be sure this is for a comment
+	if ( !is_object($id_or_email) || !isset($id_or_email->comment_ID) || $id_or_email->user_id) 
+		 return $avatar;
+		 
+	// check for twuid comment meta
+	$twuid = get_comment_meta($id_or_email->comment_ID, 'twuid', true);
+	if ($twuid) {
+		// return the avatar code
+		$avatar = "<img class='avatar avatar-{$size} twitter-avatar' src='http://purl.org/net/spiurl/{$twuid}/original' width='{$size}' height='{$size}' />";
+	}
+	
+	return $avatar;
+}
+
+// store the Twitter screen_name as comment meta data ('twuid')
+add_action('comment_post','stc_comm_add_meta', 10, 1);
+function stc_comm_add_meta($comment_id) {
+	$tw = stc_get_credentials();
+	if ($tw) {
+		update_comment_meta($comment_id, 'twuid', $tw->screen_name);
+	}
+}
+
+// Add user fields for FB commenters
+add_filter('pre_comment_on_post','stc_comm_fill_in_fields');
+function stc_comm_fill_in_fields($comment_post_ID) {
+	if (is_user_logged_in()) return; // do nothing to WP users
+	
+	$tw = stc_get_credentials();
+	if ($tw) {	
+		$_POST['author'] = $tw->name;
+		$_POST['url'] = 'http://twitter.com/'.$tw->screen_name;
+		
+		// use an @twitter email address. This shows it's a twitter name, and email to it won't work.
+		$_POST['email'] = $tw->screen_name.'@fake.twitter.com'; 
+	}
+}
+
+// add twitter ids to feeds using person extensions (http://ietfreport.isoc.org/idref/draft-snell-atompub-author-extensions)
+add_filter('atom_ns','stc_comm_add_namespace');
+function stc_comm_add_namespace() {
+	global $atom_pe;
+	if ($atom_pe) return;
+	echo ' xmlns:pe="http://purl.org/atompub/person-extensions/1.0" ';
+	$atom_pe = true;
+}
+
+// note: this is a crappy way of doing this
+add_filter('get_comment_author_url','stc_comm_add_identity');
+function stc_comm_add_identity($data) {
+	global $stc_comm_new_author;
+	if (!$stc_comm_new_author) return $data;
+	if (is_feed()) {
+		global $comment;
+		$fbuid = get_comment_meta($comment->comment_ID, 'fbuid', true);
+		if ($fbuid) {
+			echo '<pe:identity scheme="http://twitter.com" href="http://twitter.com/'.$twuid.'" />'."\n\t\t\t";
+		}
+	}
+	$stc_comm_new_author = false;
+	return $data;
+}
+
+add_filter('comment_author_rss','stc_comm_new_author');
+function stc_comm_new_author($data) {
+	global $stc_comm_new_author;
+	$stc_comm_new_author = true;
+	return $data;
+}

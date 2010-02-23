@@ -79,6 +79,11 @@ Twitter offers no way to get a valid email address for a user. So the comments p
 
 == Screenshots ==
 
+1. Login screen showing both Simple Facebook Connect and Simplw Twitter Connect login buttons.
+2. Twitter Connect on My Profile screen.
+3. Simple Facebook Connect and Simple Twitter Connect button on comments form.
+4. Login info (before styling) after using Twitter connect button on comments form.
+
 == Upgrade Notice ==
 
 == Changelog ==

@@ -174,15 +174,30 @@ function stc_get_credentials() {
 	return $_SESSION['stc_credentials'];
 }
 
-// json is assumed for this
+// json is assumed for this, so don't add .xml or .json to the request URL
 function stc_do_request($url, $args = array(), $type = NULL) {
+	
+	if ($args['acc_token']) {
+		$acc_token = $args['acc_token'];
+		unset($args['acc_token']);
+	} else {
+		$acc_token = $_SESSION['stc_acc_token'];
+	}
+	
+	if ($args['acc_secret']) {
+		$acc_token = $args['acc_secret'];
+		unset($args['acc_secret']);
+	} else {
+		$acc_secret = $_SESSION['stc_acc_secret'];
+	}
+	
 	$options = get_option('stc_options');
 	if (empty($options['consumer_key']) || empty($options['consumer_secret']) ||
-		empty($_SESSION['stc_acc_token']) || empty($_SESSION['stc_acc_secret']) ) return false;
+		empty($acc_token) || empty($acc_secret) ) return false;
 
 	include_once "twitterOAuth.php";
 
-	$to = new TwitterOAuth($options['consumer_key'], $options['consumer_secret'], $_SESSION['stc_acc_token'], $_SESSION['stc_acc_secret']);
+	$to = new TwitterOAuth($options['consumer_key'], $options['consumer_secret'], $acc_token, $acc_secret);
 	$json = $to->OAuthRequest($url.'.json', $args, $type);
 
 	return json_decode($json);

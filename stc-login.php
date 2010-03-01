@@ -64,24 +64,23 @@ function stc_login_profile_page($profile) {
 		<img src='http://purl.org/net/spiurl/<?php echo $twuid; ?>/original' width='32' height='32' />
 		<a href='http://twitter.com/<?php echo $twuid; ?>'><?php echo $twuid; ?></a>
 <?php if (STC_ALLOW_DISCONNECT) { ?>
-		<input type="button" class="button-primary" value="Disconnect this account from WordPress" 
-		onclick="stc_login_disconnect(); return false;" />
-<?php } ?>
-	<script type="text/javascript">
-	function stc_login_disconnect() {
-		var ajax_url = '<?php echo admin_url("admin-ajax.php"); ?>';
-		var data = {
-			action: 'disconnect_twuid',
-			twuid: '<?php echo $twuid; ?>'
-		}
-		jQuery.post(ajax_url, data, function(response) {
-			if (response == '1') {
-				location.reload(true);
+		<input type="button" class="button-primary" value="Disconnect this account from WordPress" onclick="stc_login_disconnect(); return false;" />
+		<script type="text/javascript">
+		function stc_login_disconnect() {
+			var ajax_url = '<?php echo admin_url("admin-ajax.php"); ?>';
+			var data = {
+				action: 'disconnect_twuid',
+				twuid: '<?php echo $twuid; ?>'
 			}
-		});
-	}
-	</script>
-	</p></td>
+			jQuery.post(ajax_url, data, function(response) {
+				if (response == '1') {
+					location.reload(true);
+				}
+			});
+		}
+		</script>
+<?php } ?>
+</p></td>
 	<?php } ?>
 	</tr>
 	</table>
@@ -132,12 +131,13 @@ function stc_login_check($user) {
 	$tw = stc_get_credentials();
 	if ($tw) {
 		global $wpdb;
-		$user_id = $wpdb->get_var( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'twuid' AND meta_value = %d", $twuid) );
+		$twuid = $tw->screen_name;
+		$user_id = $wpdb->get_var( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'twuid' AND meta_value = '%s'", $twuid) );
 
 		if ($user_id) {
 			$user = new WP_User($user_id);
 		} else {
-			do_action('stc_login_new_tw_user',$fb); // hook for creating new users if desired
+			do_action('stc_login_new_tw_user',$tw); // hook for creating new users if desired
 		}
 	}
 	return $user;

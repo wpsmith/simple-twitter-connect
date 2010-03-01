@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
 Tested up to: 2.9.2
-Stable tag: 0.1
+Stable tag: 0.2
 
 == Description ==
 
@@ -93,7 +93,15 @@ Yes. In order to make the plugin more compatible with caching plugins like WP-Su
 
 == Upgrade Notice ==
 
+= 0.2 =
+IMPORTANT UPGRADE! There is a major security hole with version 0.1 and wp-login. You must upgrade IMMEDIATELY.
+
 == Changelog ==
+
+= 0.2 =
+* Login security issue fixed.
+* Logout link added to comments.
+* Minor internal design changes.
 
 = 0.1 =
 

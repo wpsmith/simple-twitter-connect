@@ -43,9 +43,12 @@ Hopefully, a future version of WordPress will make this simpler.
 
 */
 
-// if you don't want the plugin to ask for email permission, ever, then define this to true in your wp-config
-if ( !defined('STC_DISABLE_EMAIL_PERMISSION') )
-	define( 'STC_DISABLE_EMAIL_PERMISSION', false ); 
+// fast check for logout request
+if ($_GET['stc-logout']) { ?>
+	session_unset();
+	wp_redirect(stc_get_current_url());
+	exit; 
+}
 
 // checks for stc on activation
 function stc_comm_activation_check(){
@@ -140,6 +143,7 @@ function stc_comm_get_display() {
 		echo "<span id='tw-user'>".
 			 "<img src='http://purl.org/net/spiurl/".$tw->screen_name."/original' width='96' height='96' />".
 			 "<span id='tw-msg'><strong>Hi ".$tw->name."!</strong><br />You are connected with your Twitter account. ".
+			 "<a href='?stc-logout=1'>Logout</a>".
 			 "</span></span>";
 		exit;
 	}

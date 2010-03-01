@@ -233,7 +233,7 @@ If you have already created one, please insert your Consumer Key and Consumer Se
 }
 
 function stc_get_connect_button($action='', $image ='Sign-in-with-Twitter-darker') {
-	return '<a href="'.get_bloginfo('home').'/?stc_oauth_start=1&stcaction='.urlencode($action).'&loc='.esc_url(stc_get_current_url()).'">'.
+	return '<a href="'.get_bloginfo('home').'/?stc_oauth_start=1&stcaction='.urlencode($action).'&loc='.urlencode(stc_get_current_url()).'">'.
 		   '<img border="0" src="'.plugins_url('/images/'.$image.'.png', __FILE__).'" />'.
 		   '</a>';
 }

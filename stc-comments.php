@@ -246,6 +246,7 @@ function stc_comm_fill_in_fields($comment_post_ID) {
 	}
 }
 
+/*
 // add twitter ids to feeds using person extensions (http://ietfreport.isoc.org/idref/draft-snell-atompub-author-extensions)
 add_filter('atom_ns','stc_comm_add_namespace');
 function stc_comm_add_namespace() {
@@ -277,3 +278,4 @@ function stc_comm_new_author($data) {
 	$stc_comm_new_author = true;
 	return $data;
 }
+*/

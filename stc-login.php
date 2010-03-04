@@ -148,7 +148,8 @@ function stc_login_logout() {
 	session_unset();	
 }
 
-// add fb ids to atom feeds using person extensions (http://ietfreport.isoc.org/idref/draft-snell-atompub-author-extensions)
+/*
+// add tw ids to atom feeds using person extensions (http://ietfreport.isoc.org/idref/draft-snell-atompub-author-extensions)
 add_filter('atom_ns','stc_login_add_namespace');
 function stc_login_add_namespace() {
 	global $atom_pe;
@@ -169,3 +170,4 @@ function stc_login_add_identity($data) {
 	}
 	return $data;
 }
+*/

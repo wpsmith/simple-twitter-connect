@@ -44,7 +44,7 @@ Hopefully, a future version of WordPress will make this simpler.
 */
 
 // fast check for logout request
-if ($_GET['stc-logout']) { ?>
+if ($_GET['stc-logout']) { 
 	session_unset();
 	wp_redirect(stc_get_current_url());
 	exit; 

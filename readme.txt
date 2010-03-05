@@ -83,6 +83,13 @@ Twitter offers no way to get a valid email address for a user. So the comments p
 
 Yes. In order to make the plugin more compatible with caching plugins like WP-Super-Cache, the data for a Twitter connect account is retreived from the server using an AJAX request. This means that there will be a slight delay while the data is retrieved, but the page has already been loaded and displayed. Most of the time this will not be noticable.
 
+= Why does the settings screen warn me that I don't have a URL shortener plugin? =
+
+Simple Twitter Connect does not implement a URL shortening service in favor of letting other plugins implement one for it. A shortener plugin should implement the "get_permalink" function for it to be detected. 
+
+The WordPress.com stats plugin implements this, and it provides shortlinks to "wp.me" URLs. If you wish to use another shortener plugin, tell that plugin's author to implement this same standard, and the plugin will automatically be detected and used by Simple Twitter Connect.
+
+The standard is "function get_shortlink($post_id)" where the function returns the shortlink as a string. This should be trivally easy to implement for any plugin author.
 
 == Screenshots ==
 
@@ -94,6 +101,9 @@ Yes. In order to make the plugin more compatible with caching plugins like WP-Su
 == Upgrade Notice ==
 
 == Changelog ==
+
+= 0.4 =
+* Warning about shortlinks.
 
 = 0.3.1 =
 * Fixed error in 0.3 that caused comments to not load on some server configurations.

@@ -81,12 +81,11 @@ function stc_comm_admin_init() {
 	add_settings_field('stc_comm_text', 'Comment Tweet Text', 'stc_comm_text', 'stc', 'stc_comm');
 }
 
-
-
 function stc_comm_section_callback() {
-?>
-<p>Define how you want the Tweet for Comments to be formatted. Use the % symbol in place of the link to the post.</p>
-<?php 
+	echo '<p>Define how you want the Tweet for Comments to be formatted. Use the % symbol in place of the link to the post.</p>';
+	if (!function_exists('get_shortlink')) {
+		echo '<p>Warning: No URL Shortener plugin detected. Links used will be full permalinks.</p>';
+	}
 }
 
 function stc_comm_text() {
@@ -94,6 +93,12 @@ function stc_comm_text() {
 	if (!$options['comment_text']) $options['comment_text'] = 'Just left a comment on %';
 
 	echo "<input type='text' name='stc_options[comment_text]' value='{$options['comment_text']}' size='40' />";	
+}
+
+add_filter('stc_validate_options','stc_comm_validate_options');
+function stc_comm_validate_options($input) {
+	$input['comment_text'] = trim($input['comment_text']);
+	return $input;
 }
 
 // set a variable to know when we are showing comments (no point in adding js to other pages)
@@ -160,6 +165,8 @@ function stc_comm_get_display() {
 add_action('comment_post','stc_comm_send_to_twitter');
 function stc_comm_send_to_twitter() {
 	$options = get_option('stc_options');
+	
+	if (!$options['comment_text']) return;
 
 	$postid = (int) $_POST['comment_post_ID'];
 	if (!$postid) return;

@@ -4,7 +4,7 @@ Plugin Name: Simple Twitter Connect
 Plugin URI: http://ottodestruct.com/blog/wordpress-plugins/simple-twitter-connect/
 Description: Makes it easy for your site to use Twitter, in a wholly modular way.
 Author: Otto
-Version: 0.2
+Version: 0.3
 Author URI: http://ottodestruct.com
 License: GPL2
 

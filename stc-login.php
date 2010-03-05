@@ -4,7 +4,7 @@ Plugin Name: STC - Login
 Plugin URI: http://ottodestruct.com/blog/wordpress-plugins/simple-twitter-connect/
 Description: Integrates Twitter Login and Authentication to WordPress
 Author: Otto
-Version: 0.2
+Version: 0.3
 Author URI: http://ottodestruct.com
 License: GPL2
 

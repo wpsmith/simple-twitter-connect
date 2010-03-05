@@ -93,10 +93,12 @@ Yes. In order to make the plugin more compatible with caching plugins like WP-Su
 
 == Upgrade Notice ==
 
-= 0.2 =
-IMPORTANT UPGRADE! There is a major security hole with version 0.1 and wp-login. You must upgrade IMMEDIATELY.
-
 == Changelog ==
+
+= 0.3 =
+* Fix logout bug and comments bug.
+* Remove person extensions. They don't work right anyway. Revisit later.
+* Add urlencoding to fix login for some odd server configurations.
 
 = 0.2 =
 * Login security issue fixed.

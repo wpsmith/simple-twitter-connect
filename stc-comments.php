@@ -1,7 +1,7 @@
 <?php
 /* 
 Plugin Name: STC - Comments
-Plugin URI: http://ottodestruct.com/blog/wordpress-plugins/simple-twitter-connect/
+Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Comments plugin for STC (for sites that allow non-logged in commenting).
 Author: Otto
 Version: 0.3
@@ -43,11 +43,14 @@ Hopefully, a future version of WordPress will make this simpler.
 
 */
 
-// fast check for logout request
-if ($_GET['stc-logout']) { 
-	session_unset();
-	wp_redirect(stc_get_current_url());
-	exit; 
+// check for logout request
+add_action('init','stc_logout');
+function stc_logout() {
+	if ($_GET['stc-logout']) { 
+		session_unset();
+		wp_redirect(stc_get_current_url());
+		exit; 
+	}
 }
 
 // checks for stc on activation

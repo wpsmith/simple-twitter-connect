@@ -27,10 +27,11 @@ Requires WordPress 2.9 and PHP 5.
 
 If you have suggestions for a new add-on, feel free to email me at otto@ottodestruct.com .
 
-Want regular updates? Become a fan of my site on Facebook!
+Want regular updates? Become a fan of my sites on Facebook!
 http://www.facebook.com/apps/application.php?id=116002660893
+http://www.facebook.com/apps/application.php?id=334947428931
 
-Or follow my site on Twitter!
+Or follow my sites on Twitter!
 http://twitter.com/ottodestruct
 
 == Installation ==

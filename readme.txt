@@ -105,6 +105,7 @@ The standard is "function get_shortlink($post_id)" where the function returns th
 
 = 0.4 =
 * Warning about shortlinks.
+* Login now displays an error message when somebody attempts to login as a user that isn't recognized yet.
 
 = 0.3.1 =
 * Fixed error in 0.3 that caused comments to not load on some server configurations.

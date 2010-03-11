@@ -138,6 +138,8 @@ function stc_login_check($user) {
 			$user = new WP_User($user_id);
 		} else {
 			do_action('stc_login_new_tw_user',$tw); // hook for creating new users if desired
+			global $error;
+			$error = '<strong>ERROR</strong>: Twitter user not recognized.';
 		}
 	}
 	return $user;

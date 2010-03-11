@@ -19,10 +19,12 @@ Requires WordPress 2.9 and PHP 5.
 * Login using Twitter
 * Comment using Twitter credentials
 * Users can auto-tweet their comments
+* Tweetmeme button
 
 **Coming soon** 
 
 * Auto-tweet new posts to an account
+* More direct retweet button (instead of using Tweetmeme)
 * (Got more ideas? Tell me!)
 
 If you have suggestions for a new add-on, feel free to email me at otto@ottodestruct.com .
@@ -106,6 +108,7 @@ The standard is "function get_shortlink($post_id)" where the function returns th
 = 0.4 =
 * Warning about shortlinks.
 * Login now displays an error message when somebody attempts to login as a user that isn't recognized yet.
+* Added Tweetmeme button plugin (STC is compatible with the already existing TweetMeme plugins also, but for completeness, this needed to be in STC as well).
 
 = 0.3.1 =
 * Fixed error in 0.3 that caused comments to not load on some server configurations.

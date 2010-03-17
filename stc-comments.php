@@ -4,7 +4,7 @@ Plugin Name: STC - Comments
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Comments plugin for STC (for sites that allow non-logged in commenting).
 Author: Otto
-Version: 0.4
+Version: 0.5
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -59,11 +59,19 @@ function stc_comm_logout() {
 function stc_comm_activation_check(){
 	if (function_exists('stc_version')) {
 		if (version_compare(stc_version(), '0.1', '>=')) {
+			
+			// default options set
+			$options = get_option('stc_options');
+			if (!$options['comment_text']) $options['comment_text'] = 'Just left a comment on %';
+			update_option('stc_options', $options);
+			
 			return;
 		}
 	}
 	deactivate_plugins(basename(__FILE__)); // Deactivate ourself
 	wp_die("The base stc plugin must be activated before this plugin will run.");
+	
+	
 }
 register_activation_hook(__FILE__, 'stc_comm_activation_check');
 
@@ -71,7 +79,11 @@ register_activation_hook(__FILE__, 'stc_comm_activation_check');
 add_action('wp_enqueue_scripts','stc_comm_jquery');
 function stc_comm_jquery() {
 	wp_enqueue_script('jquery');
-	wp_enqueue_script('google-jsapi','http://www.google.com/jsapi');
+	
+	$options = get_option('stc_options');
+	if (!empty($options['comment_text'])) {  // dont do this if disabled 
+		wp_enqueue_script('google-jsapi','http://www.google.com/jsapi');
+	}
 }
 
 // add the admin sections to the stc page
@@ -82,7 +94,7 @@ function stc_comm_admin_init() {
 }
 
 function stc_comm_section_callback() {
-	echo '<p>Define how you want the Tweet for Comments to be formatted. Use the % symbol in place of the link to the post.</p>';
+	echo '<p>Define how you want the Tweet for Comments to be formatted. Use the % symbol in place of the link to the post. Leave blank to disable.</p>';
 	if (!function_exists('get_shortlink')) {
 		echo '<p>Warning: No URL Shortener plugin detected. Links used will be full permalinks.</p>';
 	}
@@ -90,8 +102,6 @@ function stc_comm_section_callback() {
 
 function stc_comm_text() {
 	$options = get_option('stc_options');
-	if (!$options['comment_text']) $options['comment_text'] = 'Just left a comment on %';
-
 	echo "<input type='text' name='stc_options[comment_text]' value='{$options['comment_text']}' size='40' />";	
 }
 
@@ -132,12 +142,18 @@ function stc_comm_footer_script() {
 		jQuery.post(ajax_url, data, function(response) {
 			if (response != '0') {
 				jQuery('#comment-user-details').hide().after(response);
+				
+				<?php 
+				$options = get_option('stc_options');
+				if (!empty($options['comment_text'])) {  // dont do this if disabled 
+				?>
 				jQuery('#stc_comm_send').html('<input style="width: auto;" type="checkbox" name="stc_comm_send" value="send"/><label for="stc_comm_send">Send Comment to Twitter</label><input type="hidden" id="stc_lat" name="stc_lat" /><input type="hidden" id="stc_long" name="stc_long" />');
 				
 				if (google.loader.ClientLocation) {
 					jQuery('#stc_lat').val(google.loader.ClientLocation.latitude);
 					jQuery('#stc_long').val(google.loader.ClientLocation.longitude);
 				}
+				<?php } ?>
 			}
 		});
 	});

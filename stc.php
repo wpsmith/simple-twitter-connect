@@ -4,7 +4,7 @@ Plugin Name: Simple Twitter Connect
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Makes it easy for your site to use Twitter, in a wholly modular way.
 Author: Otto
-Version: 0.4
+Version: 0.5
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -106,7 +106,7 @@ function stc_options_page() {
 	<div style='width:20em; float:right; background: #ffc; border: 1px solid #333; margin: 2px; padding: 5px'>
 			<h3 align='center'>About the Author</h3>
 		<p><a href="http://ottodestruct.com/blog/wordpress-plugins/simple-twitter-connect/">Simple Twitter Connect</a> is developed and maintained by <a href="http://ottodestruct.com">Otto</a>.</p>
-			<p>He blogs at <a href="http://ottodestruct.com">Nothing To See Here</a>, posts photos on <a href="http://www.flickr.com/photos/otto42/">Flickr</a>, and chats on <a href="http://twitter.com/otto42">Twitter</a>.</p>
+			<p>He blogs at <a href="http://ottodestruct.com">Nothing To See Here</a> and <a href="http://ottopress.com">Otto on WordPress</a>, posts photos on <a href="http://www.flickr.com/photos/otto42/">Flickr</a>, and chats on <a href="http://twitter.com/otto42">Twitter</a>.</p>
 			<p>You can follow his site on either <a href="http://www.facebook.com/apps/application.php?id=116002660893">Facebook</a> or <a href="http://twitter.com/ottodestruct">Twitter</a>, if you like.</p>
 			<p>If you'd like to <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom">buy him a beer</a>, then he'd be perfectly happy to drink it.</p>
 		</div>
@@ -136,7 +136,7 @@ function stc_oauth_start() {
 	$_SESSION['stc_callback'] = $_GET['loc'];
 	$_SESSION['stc_callback_action'] = $_GET['stcaction'];
 
-	wp_redirect($to->getAuthenticateURL($token));
+	wp_redirect(apply_filters('stc_auth_url',$to->getAuthenticateURL($token), $to, $token));
 	exit;
 }
 
@@ -165,9 +165,9 @@ function stc_oauth_confirm() {
 }
 
 // get the user credentials from twitter
-function stc_get_credentials() {
+function stc_get_credentials($force_check = false) {
 	// cache the results in the session so we don't do this over and over
-	if ($_SESSION['stc_credentials']) return $_SESSION['stc_credentials']; 
+	if (!$force_check && $_SESSION['stc_credentials']) return $_SESSION['stc_credentials']; 
 	
 	$_SESSION['stc_credentials'] = stc_do_request('http://twitter.com/account/verify_credentials');
 	

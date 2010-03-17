@@ -104,6 +104,8 @@ The standard is "function get_shortlink($post_id)" where the function returns th
 == Upgrade Notice ==
 
 == Changelog ==
+= 0.5 =
+* Comments plugin is a bit smarter now. Settings page fixed, and the "Send to Twitter" can be disabled. Disabling also prevents the google ajax libraries from loading in order to get location of the user.
 
 = 0.4 =
 * Warning about shortlinks.

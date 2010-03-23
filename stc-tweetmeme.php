@@ -4,7 +4,7 @@ Plugin Name: STC - TweetMeme Button
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Adds a Tweetmeme button to your content.
 Author: Otto
-Version: 0.4
+Version: 0.5
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -52,8 +52,10 @@ function get_stc_tweetmeme_button($source = '', $id = 0) {
 	}
 	$url = get_permalink($id);
 	$out =  "<script type='text/javascript'>\n";
+	$out .= "<!--\n";
 	$out .= "tweetmeme_source = '{$source}';\n";
 	$out .= "tweetmeme_url = '{$url}';\n";
+	$out .= "//-->\n";
 	$out .= "</script>";
 	$out .= '<script type="text/javascript" src="http://tweetmeme.com/i/scripts/button.js"></script>';
 	return $out;

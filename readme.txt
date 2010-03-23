@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
 Tested up to: 2.9.2
-Stable tag: 0.4
+Stable tag: 0.5
 
 == Description ==
 
@@ -20,10 +20,10 @@ Requires WordPress 2.9 and PHP 5.
 * Comment using Twitter credentials
 * Users can auto-tweet their comments
 * Tweetmeme button
+* Auto-tweet new posts to an account
 
 **Coming soon** 
 
-* Auto-tweet new posts to an account
 * More direct retweet button (instead of using Tweetmeme)
 * (Got more ideas? Tell me!)
 
@@ -31,7 +31,7 @@ If you have suggestions for a new add-on, feel free to email me at otto@ottodest
 
 Want regular updates? Become a fan of my sites on Facebook!
 http://www.facebook.com/apps/application.php?id=116002660893
-http://www.facebook.com/apps/application.php?id=334947428931
+http://www.facebook.com/ottopress
 
 Or follow my sites on Twitter!
 http://twitter.com/ottodestruct
@@ -103,9 +103,15 @@ The standard is "function get_shortlink($post_id)" where the function returns th
 
 == Upgrade Notice ==
 
+= 0.5 = 
+Automatic Tweeting on Post Publishing added. Supports posting to alternate Twitter accounts than your own. VERY beta.
+
 == Changelog ==
+
 = 0.5 =
-* Comments plugin is a bit smarter now. Settings page fixed, and the "Send to Twitter" can be disabled. Disabling also prevents the google ajax libraries from loading in order to get location of the user.
+* Comments plugin is a bit smarter now. Settings page fixed, and the "Send to Twitter" can be disabled. Disabling also prevents the google ajax libraries from loading (they are used to get location of the user for location info in tweets).
+* Tweetmeme script now using HTML comments, so as not to show up tweetmeme settings in strange places (feeds, FB Share, etc). 
+* Automatic Tweeting on Post Publishing added. Supports posting to alternate Twitter accounts. Manual publishing coming soon.
 
 = 0.4 =
 * Warning about shortlinks.

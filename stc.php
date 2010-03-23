@@ -52,7 +52,7 @@ function stc_activation_check(){
 register_activation_hook(__FILE__, 'stc_activation_check');
 
 function stc_version() {
-	return '0.1';
+	return '0.5';
 }
 
 // plugin row links
@@ -135,8 +135,11 @@ function stc_oauth_start() {
 
 	$_SESSION['stc_callback'] = $_GET['loc'];
 	$_SESSION['stc_callback_action'] = $_GET['stcaction'];
+	
+	if ($_GET['type'] == 'authorize') $url=$to->getAuthorizeURL($token);
+	else $url=$to->getAuthenticateURL($token);
 
-	wp_redirect(apply_filters('stc_auth_url',$to->getAuthenticateURL($token), $to, $token));
+	wp_redirect(apply_filters('stc_auth_url', $url, $to, $token));
 	exit;
 }
 
@@ -185,7 +188,7 @@ function stc_do_request($url, $args = array(), $type = NULL) {
 	}
 	
 	if ($args['acc_secret']) {
-		$acc_token = $args['acc_secret'];
+		$acc_secret = $args['acc_secret'];
 		unset($args['acc_secret']);
 	} else {
 		$acc_secret = $_SESSION['stc_acc_secret'];
@@ -232,8 +235,8 @@ If you have already created one, please insert your Consumer Key and Consumer Se
 	}
 }
 
-function stc_get_connect_button($action='', $image ='Sign-in-with-Twitter-darker') {
-	return '<a href="'.get_bloginfo('home').'/?stc_oauth_start=1&stcaction='.urlencode($action).'&loc='.urlencode(stc_get_current_url()).'">'.
+function stc_get_connect_button($action='', $type='authenticate', $image ='Sign-in-with-Twitter-darker') {
+	return '<a href="'.get_bloginfo('home').'/?stc_oauth_start=1&stcaction='.urlencode($action).'&loc='.urlencode(stc_get_current_url()).'&type='.urlencode($type).'">'.
 		   '<img border="0" src="'.plugins_url('/images/'.$image.'.png', __FILE__).'" />'.
 		   '</a>';
 }

@@ -139,7 +139,7 @@ function stc_oauth_start() {
 	if ($_GET['type'] == 'authorize') $url=$to->getAuthorizeURL($token);
 	else $url=$to->getAuthenticateURL($token);
 
-	wp_redirect(apply_filters('stc_auth_url', $url, $to, $token));
+	wp_redirect($url);
 	exit;
 }
 

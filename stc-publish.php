@@ -84,15 +84,6 @@ function stc_publish_text() {
 	echo '<p>Use %url% for the post link (or shortlink).</p>';
 }
 
-// use authorize URL instead of authenticate URL
-add_filter('stc_auth_url','stc_publish_auth_url', 10, 3); 
-function stc_publish_auth_url($auth, $to, $token) {
-	if ($_GET['stc_action'] == 'publish_preauth') {
-		$auth = $to->getAuthorizeURL($token);
-	}
-	return $auth;
-}
-
 add_action('stc_publish_preauth','stc_publish_preauth');
 function stc_publish_preauth() {
 	if ( ! current_user_can('manage_options') )

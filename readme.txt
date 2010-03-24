@@ -108,6 +108,9 @@ Automatic Tweeting on Post Publishing added. Supports posting to alternate Twitt
 
 == Changelog ==
 
+= 0.6 = 
+* Added proper uninstaller.
+
 = 0.5 =
 * Comments plugin is a bit smarter now. Settings page fixed, and the "Send to Twitter" can be disabled. Disabling also prevents the google ajax libraries from loading (they are used to get location of the user for location info in tweets).
 * Tweetmeme script now using HTML comments, so as not to show up tweetmeme settings in strange places (feeds, FB Share, etc). 

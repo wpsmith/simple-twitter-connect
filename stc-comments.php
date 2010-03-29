@@ -118,9 +118,9 @@ function stc_comm_comments_enable() {
 	$stc_comm_comments_form = true;
 }
 
-// add span for sending comment to twitter checkbox
-add_action('comment_form','stc_comm_send_span');
-function stc_comm_send_span() {
+// add placeholder for sending comment to twitter checkbox
+add_action('comment_form','stc_comm_send_place');
+function stc_comm_send_place() {
 ?><p id="stc_comm_send"></p><?php
 }
 
@@ -235,7 +235,7 @@ function alt_login_method_div_close() { echo '</div>'; }
 
 // generate facebook avatar code for Twitter user comments
 add_filter('get_avatar','stc_comm_avatar', 10, 5);
-function stc_comm_avatar($avatar, $id_or_email, $size, $default, $alt) {
+function stc_comm_avatar($avatar, $id_or_email, $size = '96', $default = '', $alt = false) {
 	// check to be sure this is for a comment
 	if ( !is_object($id_or_email) || !isset($id_or_email->comment_ID) || $id_or_email->user_id) 
 		 return $avatar;
@@ -273,37 +273,3 @@ function stc_comm_fill_in_fields($comment_post_ID) {
 		$_POST['email'] = $tw->screen_name.'@fake.twitter.com'; 
 	}
 }
-
-/*
-// add twitter ids to feeds using person extensions (http://ietfreport.isoc.org/idref/draft-snell-atompub-author-extensions)
-add_filter('atom_ns','stc_comm_add_namespace');
-function stc_comm_add_namespace() {
-	global $atom_pe;
-	if ($atom_pe) return;
-	echo ' xmlns:pe="http://purl.org/atompub/person-extensions/1.0" ';
-	$atom_pe = true;
-}
-
-// note: this is a crappy way of doing this
-add_filter('get_comment_author_url','stc_comm_add_identity');
-function stc_comm_add_identity($data) {
-	global $stc_comm_new_author;
-	if (!$stc_comm_new_author) return $data;
-	if (is_feed()) {
-		global $comment;
-		$fbuid = get_comment_meta($comment->comment_ID, 'fbuid', true);
-		if ($fbuid) {
-			echo '<pe:identity scheme="http://twitter.com" href="http://twitter.com/'.$twuid.'" />'."\n\t\t\t";
-		}
-	}
-	$stc_comm_new_author = false;
-	return $data;
-}
-
-add_filter('comment_author_rss','stc_comm_new_author');
-function stc_comm_new_author($data) {
-	global $stc_comm_new_author;
-	$stc_comm_new_author = true;
-	return $data;
-}
-*/

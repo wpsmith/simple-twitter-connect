@@ -149,27 +149,3 @@ add_action('wp_logout','stc_login_logout');
 function stc_login_logout() {
 	session_unset();	
 }
-
-/*
-// add tw ids to atom feeds using person extensions (http://ietfreport.isoc.org/idref/draft-snell-atompub-author-extensions)
-add_filter('atom_ns','stc_login_add_namespace');
-function stc_login_add_namespace() {
-	global $atom_pe;
-	if ($atom_pe) return;
-	echo ' xmlns:pe="http://purl.org/atompub/person-extensions/1.0" ';
-	$atom_pe = true;
-}
-
-// note: this is a crappy way of doing this
-add_filter('get_the_author_url','stc_login_add_identity');
-function stc_login_add_identity($data) {
-	if (is_feed()) {
-		global $authordata;
-		$twuid = get_usermeta($authordata->ID, 'twuid');
-		if ($twuid) {
-			echo '<pe:identity scheme="http://twitter.com" href="http://twitter.com/'.$twuid.'" />'."\n";
-		}
-	}
-	return $data;
-}
-*/

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
 Tested up to: 2.9.2
-Stable tag: 0.6
+Stable tag: 0.6.1
 
 == Description ==
 
@@ -104,6 +104,9 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Upgrade Notice ==
 
+= 0.6.1 = 
+* 0.6 had a fatal error in it, do not use that version.
+
 = 0.6 = 
 If you upgraded WordPress.com stats, you'll notice the shortlinks stopped working. This is because of the new WordPress 3.0 shortlink support. Simple Twitter Connect now supports the same standard, but it'll only work in WordPress 3.0.
 
@@ -111,6 +114,9 @@ If you upgraded WordPress.com stats, you'll notice the shortlinks stopped workin
 Automatic Tweeting on Post Publishing added. Supports posting to alternate Twitter accounts than your own. VERY beta.
 
 == Changelog ==
+
+= 0.6.1 = 
+* 0.6 had a fatal error in it, do not use that version.
 
 = 0.6 = 
 * Added proper uninstaller.

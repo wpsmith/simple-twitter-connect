@@ -203,7 +203,7 @@ function stc_comm_send_to_twitter() {
 			$args['long'] = $long;
 		}
 
-		if (function_exists('wp_get_shortlink') {
+		if (function_exists('wp_get_shortlink')) {
 			// use the shortlink if it's available
 			$link = wp_get_shortlink($postid);
 		} else if (function_exists('get_shortlink')) {

@@ -141,7 +141,7 @@ function stc_publish_automatic($id, $post) {
 	// args to send to twitter
 	$args=array();
 
-	if (function_exists('wp_get_shortlink') {
+	if (function_exists('wp_get_shortlink')) {
 		// use the shortlink if it's available
 		$link = wp_get_shortlink($postid);
 	} else if (function_exists('get_shortlink')) {

@@ -4,7 +4,7 @@ Plugin Name: STC - Comments
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Comments plugin for STC (for sites that allow non-logged in commenting).
 Author: Otto
-Version: 0.5
+Version: 0.6
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -95,7 +95,7 @@ function stc_comm_admin_init() {
 
 function stc_comm_section_callback() {
 	echo '<p>Define how you want the Tweet for Comments to be formatted. Use the % symbol in place of the link to the post. Leave blank to disable.</p>';
-	if (!function_exists('get_shortlink')) {
+	if (!function_exists('get_shortlink') && !function_exists('wp_get_shortlink')) {
 		echo '<p>Warning: No URL Shortener plugin detected. Links used will be full permalinks.</p>';
 	}
 }
@@ -203,7 +203,10 @@ function stc_comm_send_to_twitter() {
 			$args['long'] = $long;
 		}
 
-		if (function_exists('get_shortlink')) {
+		if function_exists('wp_get_shortlink') {
+			// use the shortlink if it's available
+			$link = wp_get_shortlink($postid);
+		} else if (function_exists('get_shortlink')) {
 			// use the shortlink if it's available
 			$link = get_shortlink($postid);
 		} else {
@@ -245,8 +248,11 @@ function stc_comm_avatar($avatar, $id_or_email, $size = '96', $default = '', $al
 	if ($twuid) {
 		// return the avatar code
 		$avatar = "<img class='avatar avatar-{$size} twitter-avatar' src='http://purl.org/net/spiurl/{$twuid}/original' width='{$size}' height='{$size}' />";
+		
+		// alternate method using tweetimag.es
+		//$avatar = "<img class='avatar avatar-{$size} twitter-avatar' src='http://img.tweetimag.es/i/{$twuid}_o' width='{$size}' height='{$size}' />";
 	}
-	
+		
 	return $avatar;
 }
 

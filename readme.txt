@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
 Tested up to: 2.9.2
-Stable tag: 0.5
+Stable tag: 0.6
 
 == Description ==
 
@@ -88,11 +88,12 @@ Yes. In order to make the plugin more compatible with caching plugins like WP-Su
 
 = Why does the settings screen warn me that I don't have a URL shortener plugin? =
 
-Simple Twitter Connect does not implement a URL shortening service in favor of letting other plugins implement one for it. A shortener plugin should implement the "get_permalink" function for it to be detected. 
+Simple Twitter Connect does not implement a URL shortening service in favor of letting other plugins implement one for it. WordPress 3.0 includes a new shortlink method for plugins to implement this properly.
+
+A shortener plugin should implement the "get_shortlink" filter for it to be detected. WordPress 3.0 will be required for this to work.
 
 The WordPress.com stats plugin implements this, and it provides shortlinks to "wp.me" URLs. If you wish to use another shortener plugin, tell that plugin's author to implement this same standard, and the plugin will automatically be detected and used by Simple Twitter Connect.
 
-The standard is "function get_shortlink($post_id)" where the function returns the shortlink as a string. This should be trivally easy to implement for any plugin author.
 
 == Screenshots ==
 
@@ -103,6 +104,9 @@ The standard is "function get_shortlink($post_id)" where the function returns th
 
 == Upgrade Notice ==
 
+= 0.6 = 
+If you upgraded WordPress.com stats, you'll notice the shortlinks stopped working. This is because of the new WordPress 3.0 shortlink support. Simple Twitter Connect now supports the same standard, but it'll only work in WordPress 3.0.
+
 = 0.5 = 
 Automatic Tweeting on Post Publishing added. Supports posting to alternate Twitter accounts than your own. VERY beta.
 
@@ -110,6 +114,7 @@ Automatic Tweeting on Post Publishing added. Supports posting to alternate Twitt
 
 = 0.6 = 
 * Added proper uninstaller.
+* Added shortlink support for WordPress 3.0 shortlink API.
 
 = 0.5 =
 * Comments plugin is a bit smarter now. Settings page fixed, and the "Send to Twitter" can be disabled. Disabling also prevents the google ajax libraries from loading (they are used to get location of the user for location info in tweets).

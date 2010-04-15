@@ -21,6 +21,8 @@ Requires WordPress 2.9 and PHP 5.
 * Users can auto-tweet their comments
 * Tweetmeme button
 * Auto-tweet new posts to an account
+* Full @anywhere support
+* Auto-link all twitter names on the site
 
 **Coming soon** 
 
@@ -107,6 +109,9 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 Added Twitter @anywhere support!
 
 == Changelog ==
+
+= 0.8 =
+* Follow button widget
 
 = 0.7 = 
 * Support for WordPress 3.0. Works with Multi-Site, but it must be configured separately for each individual site, it will not work sitewide. Sitewide coming soon for a small percentage of configurations (it's only possible if all sites are on the same domain, not in multiple domains).

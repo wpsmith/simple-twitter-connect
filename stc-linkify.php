@@ -4,7 +4,7 @@ Plugin Name: STC - Linkify
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Automatically link @usernames to twitter, anywhere on the whole site.
 Author: Otto
-Version: 0.7
+Version: 0.8
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -50,10 +50,9 @@ add_action('wp_footer','stc_linkify');
 function stc_linkify() {
 ?>
 <script type="text/javascript">
-	twttr.anywhere(stcLinkify);
-	function stcLinkify(twitter) {
+	twttr.anywhere(function (twitter) {
 		twitter.linkifyUsers();
-	};
+	});
 </script>
 <?php
 }

@@ -4,7 +4,7 @@ Plugin Name: STC - Publish
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Allows you to tweet your posts to a Twitter account. Activate this plugin, then look on the Edit Post pages for Twitter posting buttons.
 Author: Otto
-Version: 0.6.1
+Version: 0.7
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -39,7 +39,7 @@ function stc_publish_activation_check(){
 register_activation_hook(__FILE__, 'stc_publish_activation_check');
 
 // add the meta boxes
-//add_action('admin_menu', 'stc_publish_meta_box_add');
+add_action('admin_menu', 'stc_publish_meta_box_add');
 function stc_publish_meta_box_add() {
 	add_meta_box('stc-publish-div', 'Twitter Publisher', 'stc_publish_meta_box', 'post', 'side');
 }
@@ -71,8 +71,8 @@ function stc_publish_auto_callback() {
 	} else {
 		echo "<p>Autotweet not set to a Twitter user.</p>";
 	}
-	echo '<p>You can publish to a twitter account other than your own normal one. To do that, click this button and then log into that account to give the plugin access.</p><p>Authenticate for auto-tweeting: '.stc_get_connect_button('publish_preauth', 'authorize').'</p>';
-	echo '<p>Afterwards, you can use this button to log back into your own normal account, if you want. </p><p>Normal authentication: '.stc_get_connect_button('', 'authorize').'</p>';
+	echo '<p>To auto-publish new posts to any Twitter account, click this button and then log into that account to give the plugin access.</p><p>Authenticate for auto-tweeting: '.stc_get_connect_button('publish_preauth', 'authorize').'</p>';
+	echo '<p>Afterwards, you can use this button to log back into your own normal account, if you are posting to a different account than your normal one. </p><p>Normal authentication: '.stc_get_connect_button('', 'authorize').'</p>';
 }
 
 function stc_publish_text() {
@@ -116,7 +116,7 @@ function stc_publish_meta_box( $post ) {
 		return;
 	}
 	
-?><div id="stc-publish-buttons"><p>TODO</p></div>
+?><div id="stc-publish-buttons"><p>TODO: This isn't finished yet. Sorry.</p></div>
 <?php
 }
 
@@ -124,7 +124,8 @@ function stc_publish_meta_box( $post ) {
 add_action('transition_post_status','stc_publish_auto_check',10,3);
 function stc_publish_auto_check($new, $old, $post) {
 	if ($new == 'publish' && $old != 'publish') {
-		stc_publish_automatic($post->ID, $post);
+		if ($post->post_type == 'post' || $post->post_type == 'page') 
+			stc_publish_automatic($post->ID, $post);
 	}
 }
 

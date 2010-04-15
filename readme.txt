@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
 Tested up to: 2.9.2
-Stable tag: 0.6.1
+Stable tag: 0.7
 
 == Description ==
 
@@ -94,7 +94,6 @@ A shortener plugin should implement the "get_shortlink" filter for it to be dete
 
 The WordPress.com stats plugin implements this, and it provides shortlinks to "wp.me" URLs. If you wish to use another shortener plugin, tell that plugin's author to implement this same standard, and the plugin will automatically be detected and used by Simple Twitter Connect.
 
-
 == Screenshots ==
 
 1. Login screen showing both Simple Facebook Connect and Simple Twitter Connect login buttons.
@@ -104,16 +103,17 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Upgrade Notice ==
 
-= 0.6.1 = 
-* 0.6 had a fatal error in it, do not use that version.
-
-= 0.6 = 
-If you upgraded WordPress.com stats, you'll notice the shortlinks stopped working. This is because of the new WordPress 3.0 shortlink support. Simple Twitter Connect now supports the same standard, but it'll only work in WordPress 3.0.
-
-= 0.5 = 
-Automatic Tweeting on Post Publishing added. Supports posting to alternate Twitter accounts than your own. VERY beta.
+= 0.7 = 
+Added Twitter @anywhere support!
 
 == Changelog ==
+
+= 0.7 = 
+* Support for WordPress 3.0. Works with Multi-Site, but it must be configured separately for each individual site, it will not work sitewide. Sitewide coming soon for a small percentage of configurations (it's only possible if all sites are on the same domain, not in multiple domains).
+* Publish only publishes posts and pages now, to prevent new custom post types from mucking about and causing weird Twitter posts.
+* Add Twitter announcement feed to settings page. If I find a feed that informs of outages, I'll use that one instead.
+* @anywhere support! The @anywhere javascript is automatically added to the site when the base plugin is set up.
+* Linkify plugin added to demonstrate how @anywhere script works.
 
 = 0.6.1 = 
 * 0.6 had a fatal error in it, do not use that version.

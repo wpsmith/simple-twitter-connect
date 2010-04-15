@@ -4,7 +4,7 @@ Plugin Name: STC - Comments
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Comments plugin for STC (for sites that allow non-logged in commenting).
 Author: Otto
-Version: 0.6.1
+Version: 0.7
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -224,17 +224,38 @@ function stc_comm_send_to_twitter() {
 // this bit is to allow the user to add the relevant comments login button to the comments form easily
 // user need only stick a do_action('alt_comment_login'); wherever he wants the button to display
 add_action('alt_comment_login','stc_comm_login_button');
+add_action('comment_form_before_fields', 'stc_comm_login_button',10,0); // WP 3.0 support
 function stc_comm_login_button() {
 	echo '<p>'.stc_get_connect_button('comment').'</p>';
 }
 
 // this exists so that other plugins can hook into the same place to add their login buttons
 if (!function_exists('alt_login_method_div')) {
-add_action('alt_comment_login','alt_login_method_div',1,0);
+
+add_action('alt_comment_login','alt_login_method_div',5,0);
+add_action('comment_form_before_fields', 'alt_login_method_div',5,0); // WP 3.0 support
+
 function alt_login_method_div() { echo '<div id="alt-login-methods">'; }
+
 add_action('alt_comment_login','alt_login_method_div_close',20,0);
+add_action('comment_form_before_fields', 'alt_login_method_div_close',20,0); // WP 3.0 support
+
 function alt_login_method_div_close() { echo '</div>'; }
+
 }
+
+// WP 3.0 support
+if (!function_exists('comment_user_details_begin')) {
+
+add_action('comment_form_before_fields', 'comment_user_details_begin',1,0);
+function comment_user_details_begin() { echo '<div id="comment-user-details">'; }
+
+add_action('comment_form_after_fields', 'comment_user_details_end',20,0);
+function comment_user_details_end() { echo '</div>'; }
+
+}
+
+
 
 // generate facebook avatar code for Twitter user comments
 add_filter('get_avatar','stc_comm_avatar', 10, 5);

@@ -4,7 +4,7 @@ Plugin Name: Simple Twitter Connect
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Makes it easy for your site to use Twitter, in a wholly modular way.
 Author: Otto
-Version: 0.6.1
+Version: 0.7
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -52,7 +52,7 @@ function stc_activation_check(){
 register_activation_hook(__FILE__, 'stc_activation_check');
 
 function stc_version() {
-	return '0.6';
+	return '0.7';
 }
 
 // plugin row links
@@ -110,7 +110,11 @@ function stc_options_page() {
 			<p>You can follow his site on either <a href="http://www.facebook.com/apps/application.php?id=116002660893">Facebook</a> or <a href="http://twitter.com/ottodestruct">Twitter</a>, if you like.</p>
 			<p>If you'd like to <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom">buy him a beer</a>, then he'd be perfectly happy to drink it.</p>
 		</div>
-	</tr></table>
+	<div style='width:20em; float:right; background: #fff; border: 1px solid #333; margin: 2px; padding: 5px'>
+		<h3 align='center'>Twitter API Announcements</h3>
+		<?php wp_widget_rss_output('http://groups.google.com/group/twitter-api-announce/feed/atom_v1_0_msgs.xml',array('show_date' => 1, 'items' => 10) ); ?>
+	</div>		
+	</td></tr></table>
 	<p class="submit">
 	<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
 	</p>
@@ -272,4 +276,15 @@ function stc_options_validate($input) {
 
 	$input = apply_filters('stc_validate_options',$input); // filter to let sub-plugins validate their options too
 	return $input;
+}
+
+
+// load the @anywhere script into the head 
+add_action('wp_enqueue_scripts','stc_anywhereloader');
+function stc_anywhereloader() {
+	$options = get_option('stc_options');
+	
+	if (!empty($options['consumer_key'])) {		
+		wp_enqueue_script( 'twitter-anywhere', "http://platform.twitter.com/anywhere.js?id={$options['consumer_key']}&v=1", array(), '1', false);
+	}
 }

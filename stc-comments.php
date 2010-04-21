@@ -167,7 +167,7 @@ function stc_comm_get_display() {
 	$tw = stc_get_credentials();
 	if ($tw) {
 		echo "<span id='tw-user'>".
-			 "<img src='http://purl.org/net/spiurl/".$tw->screen_name."/original' width='96' height='96' />".
+			 "<img src='http://api.twitter.com/1/users/profile_image/".$tw->screen_name."?size=bigger' width='96' height='96' />".
 			 "<span id='tw-msg'><strong>Hi ".$tw->name."!</strong><br />You are connected with your Twitter account. ".
 			 "<a href='?stc-logout=1'>Logout</a>".
 			 "</span></span>";
@@ -268,10 +268,7 @@ function stc_comm_avatar($avatar, $id_or_email, $size = '96', $default = '', $al
 	$twuid = get_comment_meta($id_or_email->comment_ID, 'twuid', true);
 	if ($twuid) {
 		// return the avatar code
-		$avatar = "<img class='avatar avatar-{$size} twitter-avatar' src='http://purl.org/net/spiurl/{$twuid}/original' width='{$size}' height='{$size}' />";
-		
-		// alternate method using tweetimag.es
-		//$avatar = "<img class='avatar avatar-{$size} twitter-avatar' src='http://img.tweetimag.es/i/{$twuid}_o' width='{$size}' height='{$size}' />";
+		$avatar = "<img class='avatar avatar-{$size} twitter-avatar' src='http://api.twitter.com/1/users/profile_image/{$twuid}?size=bigger' width='{$size}' height='{$size}' />";
 	}
 		
 	return $avatar;

@@ -4,7 +4,7 @@ Plugin Name: STC - Comments
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Comments plugin for STC (for sites that allow non-logged in commenting).
 Author: Otto
-Version: 0.8
+Version: 0.9
 Author URI: http://ottodestruct.com
 License: GPL2
 

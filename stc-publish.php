@@ -4,7 +4,7 @@ Plugin Name: STC - Publish
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Allows you to tweet your posts to a Twitter account. Activate this plugin, then look on the Edit Post pages for Twitter posting buttons.
 Author: Otto
-Version: 0.8
+Version: 0.9
 Author URI: http://ottodestruct.com
 License: GPL2
 

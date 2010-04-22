@@ -105,15 +105,14 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Upgrade Notice ==
 
-= 0.8 = 
-Fix for broken Twitter avatars due to SPIURL and Twitter API changes.
-
 == Changelog ==
+
+= 0.9 =
+* Added hovercard support to Linkify plugin
 
 = 0.8 =
 * Follow button widget
 * Fix for broken Twitter avatars due to SPIURL and Twitter API changes.
-* Added hovercard support to Linkify plugin
 
 = 0.7 = 
 * Support for WordPress 3.0. Works with Multi-Site, but it must be configured separately for each individual site, it will not work sitewide. Sitewide coming soon for a small percentage of configurations (it's only possible if all sites are on the same domain, not in multiple domains).

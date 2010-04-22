@@ -22,7 +22,7 @@ Requires WordPress 2.9 and PHP 5.
 * Tweetmeme button
 * Auto-tweet new posts to an account
 * Full @anywhere support
-* Auto-link all twitter names on the site
+* Auto-link all twitter names on the site (with optional hovercards)
 
 **Coming soon** 
 
@@ -113,6 +113,7 @@ Fix for broken Twitter avatars due to SPIURL and Twitter API changes.
 = 0.8 =
 * Follow button widget
 * Fix for broken Twitter avatars due to SPIURL and Twitter API changes.
+* Added hovercard support to Linkify plugin
 
 = 0.7 = 
 * Support for WordPress 3.0. Works with Multi-Site, but it must be configured separately for each individual site, it will not work sitewide. Sitewide coming soon for a small percentage of configurations (it's only possible if all sites are on the same domain, not in multiple domains).

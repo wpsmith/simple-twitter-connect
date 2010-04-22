@@ -26,12 +26,6 @@ License: GPL2
     
 */
 
-/*
-	This is really a sort of demo plugin, to show how to use @anywhere with STC.
-	Feel free to make your own STC @anywhere plugin using this code as an example.
-	More info on @anywhere script is here: http://dev.twitter.com/anywhere/begin
-
-*/
 // checks for stc on activation
 function stc_linkify_activation_check(){
 	if (function_exists('stc_version')) {
@@ -48,11 +42,46 @@ register_activation_hook(__FILE__, 'stc_linkify_activation_check');
 // add the simple javascript to the footer
 add_action('wp_footer','stc_linkify');
 function stc_linkify() {
+	$options = get_option('stc_options');
+	if ($options['use_hovercards']) {
 ?>
 <script type="text/javascript">
-	twttr.anywhere(function (twitter) {
-		twitter.linkifyUsers();
+	twttr.anywhere(function (T) {
+		T.hovercards();
+	});
+</script>
+<?php } else {
+?>
+<script type="text/javascript">
+	twttr.anywhere(function (T) {
+		T.linkifyUsers();
 	});
 </script>
 <?php
+	}
+}
+
+// add the admin sections to the stc page
+add_action('admin_init', 'stc_linkify_admin_init');
+function stc_linkify_admin_init() {
+	add_settings_section('stc_linkify', 'Linkify Settings', 'stc_linkify_section_callback', 'stc');
+	add_settings_field('stc_linkify_hovercards', 'Use Twitter Hovercards', 'stc_linkify_hovercards', 'stc', 'stc_linkify');
+}
+
+function stc_linkify_section_callback() {
+}
+
+function stc_linkify_hovercards() {
+	$options = get_option('stc_options');
+	if (!$options['use_hovercards']) $options['use_hovercards'] = false;
+	echo "<p><input type='checkbox' id='stc-linkify-hovercards' name='stc_options[use_hovercards]' ";
+	checked($options['use_hovercards']);
+	echo " /> Show Twitter Hovercards</p>";
+}
+
+add_filter('stc_validate_options','stc_linkify_validate_options');
+function stc_linkify_validate_options($input) {
+	if (isset($input['use_hovercards'])) $input['use_hovercards'] = true;
+	else $input['use_hovercards'] = false;
+	return $input;
 }

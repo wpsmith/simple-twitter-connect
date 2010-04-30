@@ -279,8 +279,9 @@ function stc_options_validate($input) {
 }
 
 
-// load the @anywhere script into the head 
+// load the @anywhere script 
 add_action('wp_enqueue_scripts','stc_anywhereloader');
+add_action('admin_enqueue_scripts','stc_anywhereloader');
 function stc_anywhereloader() {
 	$options = get_option('stc_options');
 	

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
 Tested up to: 2.9.2
-Stable tag: 0.8
+Stable tag: 0.9
 
 == Description ==
 
@@ -21,6 +21,7 @@ Requires WordPress 2.9 and PHP 5.
 * Users can auto-tweet their comments
 * Tweetmeme button
 * Auto-tweet new posts to an account
+* Manual Tweetbox after Publish
 * Full @anywhere support
 * Auto-link all twitter names on the site (with optional hovercards)
 
@@ -108,7 +109,8 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 == Changelog ==
 
 = 0.9 =
-* Added hovercard support to Linkify plugin
+* Added hovercard support to Linkify plugin.
+* Added manual tweetbox to edit post page (using @anywhere tweetbox code).
 
 = 0.8 =
 * Follow button widget

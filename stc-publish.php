@@ -116,7 +116,19 @@ function stc_publish_meta_box( $post ) {
 		return;
 	}
 	
-?><div id="stc-publish-buttons"><p>TODO: This isn't finished yet. Sorry.</p></div>
+	$tbox['height'] = 100;
+	$tbox['width'] = 260;
+	$tbox['defaultContent'] = stc_get_default_tweet($post->ID);
+	$tbox['label'] = 'Tweet this:';
+?><div id="stc-publish-buttons">
+<div id="stc-manual-tweetbox"></div>
+<script type="text/javascript">
+  twttr.anywhere(function (T) {
+    T("#stc-manual-tweetbox").tweetBox(<?php echo json_encode($tbox); ?>);
+  });
+</script>
+
+</div>
 <?php
 }
 
@@ -142,6 +154,16 @@ function stc_publish_automatic($id, $post) {
 	// args to send to twitter
 	$args=array();
 
+	$args['status'] = stc_get_default_tweet($id);
+
+	$args['acc_token'] = $options['autotweet_token'];
+	$args['acc_secret'] = $options['autotweet_secret'];
+	
+	$resp = stc_do_request('http://api.twitter.com/1/statuses/update',$args);
+}
+
+function stc_get_default_tweet($id) {
+	$options = get_option('stc_options');
 	if (function_exists('wp_get_shortlink')) {
 		// use the shortlink if it's available
 		$link = wp_get_shortlink($postid);
@@ -153,14 +175,11 @@ function stc_publish_automatic($id, $post) {
 		$link = get_permalink($id);
 	}
 
-	$args['status'] = $options['publish_text'];
-	$args['status'] = str_replace('%title%', get_the_title($id), $args['status'] );
-	$args['status'] = str_replace('%url%', $link, $args['status'] );
+	$output = $options['publish_text'];
+	$output = str_replace('%title%', get_the_title($id), $output );
+	$output = str_replace('%url%', $link, $output );
 
-	$args['acc_token'] = $options['autotweet_token'];
-	$args['acc_secret'] = $options['autotweet_secret'];
-	
-	$resp = stc_do_request('http://api.twitter.com/1/statuses/update',$args);
+	return $output;
 }
 
 add_filter('stc_validate_options','stc_publish_validate_options');

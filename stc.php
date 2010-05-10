@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Simple Twitter Connect
+Plugin Name: Simple Twitter Connect - Base
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Makes it easy for your site to use Twitter, in a wholly modular way.
 Author: Otto
-Version: 0.9
+Version: 0.10
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -52,7 +52,7 @@ function stc_activation_check(){
 register_activation_hook(__FILE__, 'stc_activation_check');
 
 function stc_version() {
-	return '0.8';
+	return '0.10';
 }
 
 // plugin row links
@@ -111,8 +111,8 @@ function stc_options_page() {
 			<p>If you'd like to <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom">buy him a beer</a>, then he'd be perfectly happy to drink it.</p>
 		</div>
 	<div style='width:20em; float:right; background: #fff; border: 1px solid #333; margin: 2px; padding: 5px'>
-		<h3 align='center'>Twitter API Announcements</h3>
-		<?php wp_widget_rss_output('http://groups.google.com/group/twitter-api-announce/feed/atom_v1_0_msgs.xml',array('show_date' => 1, 'items' => 10) ); ?>
+		<h3 align='center'>Twitter Status</h3>
+		<?php wp_widget_rss_output('http://status.twitter.com/rss',array('show_date' => 1, 'items' => 10) ); ?>
 	</div>		
 	</td></tr></table>
 	<p class="submit">

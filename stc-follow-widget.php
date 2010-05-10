@@ -4,7 +4,7 @@ Plugin Name: STC - Follow Button Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Create a follow button in your sites sidebar.
 Author: Otto
-Version: 0.9
+Version: 0.10
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -68,15 +68,23 @@ class STC_Follow_Widget extends WP_Widget {
 	}
 
 	function update($new_instance, $old_instance) {
+		$options = get_option('stc_options');
+		if (empty($options['autotweet_name'])) $defaultuser = '';
+		else $defaultuser = $options['autotweet_name'];
+		
 		$instance = $old_instance;
-		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'user' => 'ottodestruct') );
+		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'user' => $defaultuser) );
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['user'] = strip_tags($new_instance['user']);
 		return $instance;
 	}
 
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'user' => 'ottodestruct') );
+		$options = get_option('stc_options');
+		if (empty($options['autotweet_name'])) $defaultuser = ''; 
+		else $defaultuser = $options['autotweet_name'];
+		
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'user' => $defaultuser) );
 		$title = strip_tags($instance['title']);
 		$user = strip_tags($instance['user']);
 		?>

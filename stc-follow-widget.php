@@ -38,17 +38,34 @@ function stc_follow_activation_check(){
 }
 register_activation_hook(__FILE__, 'stc_follow_activation_check');
 
+
+function get_stc_follow_button($user) {
+	$ret = "<div id='stcFollow-{$user}'></div>\n"
+	. '<script type="text/javascript">' ."\n"
+	. "	twttr.anywhere(function (twitter) {\n"
+	. " twitter('#stcFollow-{$user}').followButton('{$user}')\n"
+	. "});\n"
+	.'</script>';
+	return $ret;
+}
+
 // output the button
 function stc_follow_button($user) {
-?>
-<div id="stcFollow-<?php echo $user; ?>"></div>
-<script type="text/javascript">
-	twttr.anywhere(function (twitter) {
-		twitter('#stcFollow-<?php echo $user; ?>').followButton("<?php echo $user; ?>");
-	});
-</script>
-<?php 
+	echo get_stc_follow_button($user);
 }
+
+/**
+ * Twitter follow as a shortcode
+ *
+ * Example use: [tweetfollow user="ottodestruct"]
+ */
+function stc_follow_shortcode($atts) {
+	extract(shortcode_atts(array(
+		'user' => '',
+	), $atts));
+	return get_stc_follow_button($user);
+}
+add_shortcode('tweetfollow','stc_follow_shortcode');
 
 class STC_Follow_Widget extends WP_Widget {
 	function STC_Follow_Widget() {

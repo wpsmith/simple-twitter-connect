@@ -108,6 +108,10 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Changelog ==
 
+= 0.10 =
+* Added followers widget
+* Added shortcode to follow widget. Use [tweetfollow user="username"] to add a follow button into posts. Alternatively, use stc_follow_button($user); in your theme to put a follow button anywhere.
+
 = 0.9 =
 * Added hovercard support to Linkify plugin.
 * Added manual tweetbox to edit post page (using @anywhere tweetbox code).

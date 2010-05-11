@@ -82,8 +82,8 @@ function stc_admin_init(){
 	wp_enqueue_script('jquery');
 	register_setting( 'stc_options', 'stc_options', 'stc_options_validate' );
 	add_settings_section('stc_main', 'Main Settings', 'stc_section_text', 'stc');
-	add_settings_field('stc_consumer_key', 'Twitter Consumer Key', 'stc_setting_consumer_key', 'stc', 'stc_main');
-	add_settings_field('stc_consumer_secret', 'Twitter Consumer Secret', 'stc_setting_consumer_secret', 'stc', 'stc_main');
+	if (!defined('STC_CONSUMER_KEY')) add_settings_field('stc_consumer_key', 'Twitter Consumer Key', 'stc_setting_consumer_key', 'stc', 'stc_main');
+	if (!defined('STC_CONSUMER_SECRET')) add_settings_field('stc_consumer_secret', 'Twitter Consumer Secret', 'stc_setting_consumer_secret', 'stc', 'stc_main');
 }
 
 // add the admin options page
@@ -254,24 +254,40 @@ function stc_get_current_url() {
 }
 
 function stc_setting_consumer_key() {
+	if (defined('STC_CONSUMER_KEY')) return;
 	$options = get_option('stc_options');
 	echo "<input type='text' id='stcconsumerkey' name='stc_options[consumer_key]' value='{$options['consumer_key']}' size='40' /> (required)";	
 }
+
 function stc_setting_consumer_secret() {
+	if (defined('STC_CONSUMER_SECRET')) return;
 	$options = get_option('stc_options');
 	echo "<input type='text' id='stcconsumersecret' name='stc_options[consumer_secret]' value='{$options['consumer_secret']}' size='40' /> (required)";	
 }
 
+// this will override the main options if they are pre-defined
+function stc_override_options($options) {
+	if (defined('STC_CONSUMER_KEY')) $options['consumer_key'] = STC_CONSUMER_KEY;
+	if (defined('STC_CONSUMER_SECRET')) $options['consumer_secret'] = STC_CONSUMER_SECRET;
+	return $options;
+}
+add_filter('option_stc_options', 'stc_override_options');
+
+
 // validate our options
 function stc_options_validate($input) {
-	$input['consumer_key'] = trim($input['consumer_key']);
-	if(! preg_match('/^[A-Za-z0-9]+$/i', $input['consumer_key'])) {
-	  $input['consumer_key'] = '';
+	if (!defined('STC_CONSUMER_KEY')) {
+		$input['consumer_key'] = trim($input['consumer_key']);
+		if(! preg_match('/^[A-Za-z0-9]+$/i', $input['consumer_key'])) {
+		  $input['consumer_key'] = '';
+		}
 	}
-
-	$input['consumer_secret'] = trim($input['consumer_secret']);
-	if(! preg_match('/^[A-Za-z0-9]+$/i', $input['consumer_secret'])) {
-	  $input['consumer_secret'] = '';
+	
+	if (!defined('STC_CONSUMER_SECRET')) {
+		$input['consumer_secret'] = trim($input['consumer_secret']);
+		if(! preg_match('/^[A-Za-z0-9]+$/i', $input['consumer_secret'])) {
+		  $input['consumer_secret'] = '';
+		}
 	}
 
 	$input = apply_filters('stc_validate_options',$input); // filter to let sub-plugins validate their options too

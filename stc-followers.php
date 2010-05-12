@@ -30,23 +30,40 @@ License: GPL2
 if (!defined('STC_FOLLOWER_CACHE')) 
 	define('STC_FOLLOWER_CACHE',60*60*24);
 
-
 /*
-
 Example CSS to use in the theme:
 
+.stc-follower-username{
+text-align:center;
+margin:0;
+}
+
+.stc-follower-username a {
+color:blue;
+}
+
+.stc-follower-box {
+border:3px #ccc solid;
+background:#eee;
+width:200px;
+}
+
+.stc-follower-head {
+background:#ccc;
+}
+
 .stc-follower {
-border: 1px black solid;
+float:left;
+width:50px;
+height:70px;
 }
 
-.stc-follower-images {
+.stc-follower-name {
+text-align:center;
+width:50px;
+font-size:9px;
+overflow:hidden;
 }
-
-.stc-follower-image {
-width:48px;
-height:48px;
-}
-
 
 */
 
@@ -64,7 +81,6 @@ register_activation_hook(__FILE__, 'stc_followers_activation_check');
 
 // gets a list of follower IDs from twitter
 function stc_followers_get($username) {
-
 	// check the cache first
 	$resp = get_transient("stc_followers_{$username}");
 	if ($resp != false) return $resp;
@@ -74,7 +90,6 @@ function stc_followers_get($username) {
 	if (!$username || !$options['autotweet_token'] || !$options['autotweet_secret']) return;
 
 	$args=array();
-
 	$args['acc_token'] = $options['autotweet_token'];
 	$args['acc_secret'] = $options['autotweet_secret'];
 	$args['screen_name']=$username;
@@ -82,43 +97,55 @@ function stc_followers_get($username) {
 	
 	$resp = stc_do_request('http://api.twitter.com/1/followers/ids',$args, 'GET');
 	
+	// save the count for later
+	set_transient("stc_followers_{$username}_count", count($resp->ids), STC_FOLLOWER_CACHE);
+	
+	// $resp is an array of up to 5000 of our followers. Grab 100 of them at random.
+	$fols = $resp->ids;
+	$fols = array_rand(array_flip($fols),100);
+	
+	// we now have 100 integer IDs. So let's go look up their names and such:
+
+	$args=array();
+	$args['acc_token'] = $options['autotweet_token'];
+	$args['acc_secret'] = $options['autotweet_secret'];
+	$args['user_id']=implode($fols,',');
+	
+	$resp = stc_do_request('http://api.twitter.com/1/users/lookup',$args, 'GET');
+	
+	// $resp should now be an array of up to 100 twitter user objects.
+	
 	set_transient("stc_followers_{$username}", $resp, STC_FOLLOWER_CACHE); // cache the result
 	
 	return $resp;
 }
 
-
-// returns a count set of followers
+// returns a count set of followers (if we've gotten them yet)
 function stc_count_followers($username) {
-	$list = stc_followers_get($username);
-	return count($list->ids);
+	return get_transient("stc_followers_{$username}_count");
 }
 
 // returns an array of random followers (12 by default)
 function stc_random_followers($username, $count = 12) {
 	$list = stc_followers_get($username);
-	$ids=$list->ids;
-	return array_rand(array_flip($ids),$count);
-}
-
-// returns an array of image URLs
-function stc_followers_images($list) {
-	if (empty($list)) return array();
-	foreach ($list as $l) {
-		$link = "<img class='stc-follower-image' src='http://api.twitter.com/1/users/profile_image/?user_id={$l}&size=bigger' />";
-		$ret[] = $link;
-	}
-	return $ret;
+	if (count($list) < $count) $count = count($list);
+	shuffle($list);
+	return array_slice($list,0,$count);
 }
 
 function get_stc_follower_box($username, $count = 12) {
-	$resp = "<div class='stc-follower'>";
-	$resp .='<p class="sfc-follower-count">'.stc_count_followers($username).' Followers</p>';
-	$resp .='<span class="stc-follower-images">';
-	$imgs = stc_followers_images(stc_random_followers($username, $count));
-	$resp .= implode($imgs);
-	$resp .='</span></div>';
-	
+	$resp = "<div class='stc-follower-box'><div class='stc-follower-head'>";
+	$resp .="<p class='stc-follower-username'><a href='http://twitter.com/{$username}'>{$username} on Twitter</a></p>";
+	$resp .='<p class="stc-follower-count">'.stc_count_followers($username).' Followers</p></div>';
+	$fols = stc_random_followers($username, $count);
+	foreach ($fols as $fol) {
+		$resp .='<div class="stc-follower">';
+		$resp .="<a href='http://twitter.com/{$fol->screen_name}'>";
+		$resp .="<img src='{$fol->profile_image_url}' width='48' height='48' />";
+		$resp .="<p class='stc-follower-name'>{$fol->screen_name}</p>";
+		$resp .='</a></div>';
+	}
+	$resp .= '<br style="clear:left;" /></div>';
 	return $resp;
 }
 

@@ -105,7 +105,8 @@ function stc_random_followers($username, $count = 12) {
 function stc_followers_images($list) {
 	if (empty($list)) return array();
 	foreach ($list as $l) {
-		$ret[] = 'http://api.twitter.com/1/users/profile_image/?user_id='.$l.'&size=bigger';
+		$link = "<img class='stc-follower-image' src='http://api.twitter.com/1/users/profile_image/?user_id={$l}&size=bigger' />";
+		$ret[] = $link;
 	}
 	return $ret;
 }
@@ -115,9 +116,7 @@ function get_stc_follower_box($username, $count = 12) {
 	$resp .='<p class="sfc-follower-count">'.stc_count_followers($username).' Followers</p>';
 	$resp .='<span class="stc-follower-images">';
 	$imgs = stc_followers_images(stc_random_followers($username, $count));
-	foreach ($imgs as $img) {
-		$resp .= "<img class='stc-follower-image' src='{$img}' />";
-	}
+	$resp .= implode($imgs);
 	$resp .='</span></div>';
 	
 	return $resp;

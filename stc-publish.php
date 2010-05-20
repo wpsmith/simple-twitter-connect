@@ -116,18 +116,18 @@ function stc_publish_meta_box( $post ) {
 		return;
 	}
 	
-	$tbox['height'] = 100;
-	$tbox['width'] = 260;
-	$tbox['defaultContent'] = stc_get_default_tweet($post->ID);
-	$tbox['label'] = 'Tweet this:';
 ?><div id="stc-publish-buttons">
-<div id="stc-manual-tweetbox"></div>
+<div id="stc-manual-tweetbox" style="width:auto; padding-right:10px;"></div>
 <script type="text/javascript">
+  var tbox=new Array();
+  tbox['height'] = 100;
+  tbox['width'] = jQuery('#stc-manual-tweetbox').width();
+  tbox['defaultContent'] = <?php echo json_encode(stc_get_default_tweet($post->ID)); ?>;
+  tbox['label'] = 'Tweet this:';
   twttr.anywhere(function (T) {
-    T("#stc-manual-tweetbox").tweetBox(<?php echo json_encode($tbox); ?>);
+    T("#stc-manual-tweetbox").tweetBox(tbox);
   });
 </script>
-
 </div>
 <?php
 }

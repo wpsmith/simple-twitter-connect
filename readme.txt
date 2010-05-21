@@ -26,6 +26,7 @@ Requires WordPress 2.9 and PHP 5.
 * Manual Tweetbox after Publish
 * Full @anywhere support
 * Auto-link all twitter names on the site (with optional hovercards)
+* Dashboard Twitter Widget
 
 **Coming soon** 
 

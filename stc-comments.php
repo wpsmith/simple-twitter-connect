@@ -140,7 +140,7 @@ function stc_comm_footer_script() {
 			action: 'stc_comm_get_display'
 		}
 		jQuery.post(ajax_url, data, function(response) {
-			if (response != '0') {
+			if (response != '0' && response != 0) {
 				jQuery('#comment-user-details').hide().after(response);
 				
 				<?php 

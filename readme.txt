@@ -117,6 +117,7 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 * Added support for predefined KEY/SECRETs. Just define STC_CONSUMER_KEY and/or STC_CONSUMER_SECRET in your wp-config file.
 * Added Twitter Dashboard widget, thanks to John Bloch.
 * Modified Publish to size Tweet box dynamically.
+* Fixed autopublish case that would result in a missing shortlink
 
 = 0.9 =
 * Added hovercard support to Linkify plugin.

@@ -111,6 +111,9 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Changelog ==
 
+= 0.11 =
+* Moved session_start into the init method. Somehow this is more compatible, I guess?
+
 = 0.10 =
 * Added followers widget. Look inside the widget code for example CSS to add to your theme.
 * Added shortcode to follow widget. Use [tweetfollow user="username"] to add a follow button into posts. Alternatively, use stc_follow_button($user); in your theme to put a follow button anywhere.

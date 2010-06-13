@@ -4,7 +4,7 @@ Plugin Name: Simple Twitter Connect - Base
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Makes it easy for your site to use Twitter, in a wholly modular way.
 Author: Otto
-Version: 0.10
+Version: 0.11
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -26,11 +26,6 @@ License: GPL2
     
 */
 
-// turn on sessions
-if (session_id() == '') {
-    session_start();
-}
-
 add_action('init','stc_init');
 function stc_init() {
 	// fast check for authentication requests on plugin load.
@@ -40,6 +35,10 @@ function stc_init() {
 	if(isset($_GET['oauth_token'])) {
 		stc_oauth_confirm();
 	}
+
+	if (session_id() == '') {
+		session_start();
+	}	
 }
 
 // require PHP 5

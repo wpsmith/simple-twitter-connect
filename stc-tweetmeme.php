@@ -4,7 +4,7 @@ Plugin Name: STC - TweetMeme Button
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Adds a Tweetmeme button to your content.
 Author: Otto
-Version: 0.10
+Version: 0.11
 Author URI: http://ottodestruct.com
 License: GPL2
 

@@ -51,7 +51,7 @@ function stc_activation_check(){
 register_activation_hook(__FILE__, 'stc_activation_check');
 
 function stc_version() {
-	return '0.10';
+	return '0.11';
 }
 
 // plugin row links

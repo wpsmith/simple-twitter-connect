@@ -4,7 +4,7 @@ Plugin Name: STC - Follow Button Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
 Description: Create a follow button in your sites sidebar.
 Author: Otto
-Version: 0.10
+Version: 0.11
 Author URI: http://ottodestruct.com
 License: GPL2
 

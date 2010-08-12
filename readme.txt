@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
 Tested up to: 3.0
-Stable tag: 0.10
+Stable tag: 0.11
 
 == Description ==
 
@@ -21,6 +21,7 @@ Requires WordPress 2.9 and PHP 5.
 * Login using Twitter
 * Comment using Twitter credentials
 * Users can auto-tweet their comments
+* Tweet button (official one from twitter)
 * Tweetmeme button
 * Auto-tweet new posts to an account
 * Manual Tweetbox after Publish
@@ -109,10 +110,14 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Upgrade Notice ==
 
+= 0.11 =
+* Added official Twitter Tweet button. This is a replacement for the TweetMeme button. Full support for styling and related users.
+
 == Changelog ==
 
 = 0.11 =
 * Moved session_start into the init method. Somehow this is more compatible, I guess?
+* Added official Twitter Tweet button. This is a replacement for the TweetMeme button which is still available if you prefer it.
 
 = 0.10 =
 * Added followers widget. Look inside the widget code for example CSS to add to your theme.

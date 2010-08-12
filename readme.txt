@@ -3,7 +3,7 @@ Contributors: Otto42
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
-Tested up to: 3.0
+Tested up to: 3.1
 Stable tag: 0.11
 
 == Description ==

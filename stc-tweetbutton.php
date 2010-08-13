@@ -91,7 +91,7 @@ function stc_tweetbutton_footer() {
 function stc_tweetbutton_shortcode($atts) {
 	global $stc_tweetbutton_defaults;
 	$args = shortcode_atts($stc_tweetbutton_defaults, $atts);
-	return get_stc_tweetbutton_button($args);
+	return get_stc_tweetbutton($args);
 }
 
 add_shortcode('tweetbutton', 'stc_tweetbutton_shortcode');
@@ -144,7 +144,7 @@ function stc_tweetbutton_position() {
 	<p><label><input type="radio" name="stc_options[tweetbutton_position]" value="before" <?php checked('before', $options['tweetbutton_position']); ?> /> Before the content of your post</label></p>
 	<p><label><input type="radio" name="stc_options[tweetbutton_position]" value="after" <?php checked('after', $options['tweetbutton_position']); ?> /> After the content of your post</label></p>
 	<p><label><input type="radio" name="stc_options[tweetbutton_position]" value="both" <?php checked('both', $options['tweetbutton_position']); ?> /> Before AND After the content of your post </label></p>
-	<p><label><input type="radio" name="stc_options[tweetbutton_position]" value="manual" <?php checked('manual', $options['tweetbutton_position']); ?> /> Manually add the button to your theme or posts (use the stc_tweetbutton_button function in your theme, or the [tweetbutton] shortcode in your posts)</label></p>
+	<p><label><input type="radio" name="stc_options[tweetbutton_position]" value="manual" <?php checked('manual', $options['tweetbutton_position']); ?> /> Manually add the button to your theme or posts (use the stc_tweetbutton function in your theme, or the [tweetbutton] shortcode in your posts)</label></p>
 <?php 
 }
 

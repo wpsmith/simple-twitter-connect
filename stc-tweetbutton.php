@@ -4,7 +4,7 @@ Plugin Name: STC - Tweet Button
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Adds a Tweet button to your content.
 Author: Otto
-Version: 0.11
+Version: 0.12
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -63,13 +63,14 @@ function get_stc_tweetbutton($args='') {
 	if ($options['tweetbutton_source']) $source = $options['tweetbutton_source'];
 	if ($options['tweetbutton_style']) $style = $options['tweetbutton_style'];
 	if ($options['tweetbutton_related']) $related = $options['tweetbutton_related'];
-	$url = get_permalink($id);
+	$url = wp_get_shortlink($id);
+	$counturl = get_permalink($id);
 	$post = get_post($id);
 	$text = esc_attr(strip_tags($post->post_title));;
 	
 	if (!empty($related)) $related = " data-related='{$related}'";
 	
-	$out = "<a href='http://twitter.com/share' class='twitter-share-button' data-text='{$text}' data-url='{$url}' data-count='{$style}' data-via='{$source}'{$related}>Tweet</a>";
+	$out = "<a href='http://twitter.com/share' class='twitter-share-button' data-text='{$text}' data-url='{$url}' data-counturl='{$counturl}' data-count='{$style}' data-via='{$source}'{$related}>Tweet</a>";
 	return $out;
 }
 

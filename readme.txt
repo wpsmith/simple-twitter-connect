@@ -115,6 +115,9 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Changelog ==
 
+= 0.12 =
+* Modified tweet button to use custom shortlinks. This can solve the copy/paste problem for manual RT's. Also makes searching work better.
+
 = 0.11 =
 * Moved session_start into the init method. Somehow this is more compatible, I guess?
 * Added official Twitter Tweet button. This is a replacement for the TweetMeme button which is still available if you prefer it.

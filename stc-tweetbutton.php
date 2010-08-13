@@ -73,7 +73,7 @@ function get_stc_tweetbutton($args='') {
 	return $out;
 }
 
-function stc_tweetbutton($args) {
+function stc_tweetbutton($args='') {
 	echo get_stc_tweetbutton($args);
 }
 

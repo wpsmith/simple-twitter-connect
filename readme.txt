@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
 Tested up to: 3.1
-Stable tag: 0.11
+Stable tag: 0.12
 
 == Description ==
 
@@ -110,14 +110,19 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Upgrade Notice ==
 
+= 0.12 = 
+* Bug fix release. Logins may not have worked with 0.11 for all people.
+* New option in settings screen to choose what your Twitter sign in button looks like, as apologies for the need for the bug fix release. :)
+
 = 0.11 =
 * Added official Twitter Tweet button. This is a replacement for the TweetMeme button. Full support for styling and related users.
 
 == Changelog ==
 
 = 0.12 =
-* Modified tweet button to use custom shortlinks. This can solve the copy/paste problem for manual RT's. Also makes searching work better.
+* Modified tweet button to use custom shortlinks (if any). This can solve the copy/paste problem for manual RT's. Also makes searching work better.
 * Add select box for choosing your style of Twitter button.
+* Bug fix. Some users may have been seeing login errors or blank screens with 0.11. This should correct that.
 
 = 0.11 =
 * Moved session_start into the init method. Somehow this is more compatible, I guess?

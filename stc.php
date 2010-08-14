@@ -104,7 +104,7 @@ function stc_options_page() {
 	</td><td style='vertical-align:top;'>
 	<div style='width:20em; float:right; background: #ffc; border: 1px solid #333; margin: 2px; padding: 5px'>
 			<h3 align='center'>About the Author</h3>
-		<p><a href="http://ottodestruct.com/blog/wordpress-plugins/simple-twitter-connect/">Simple Twitter Connect</a> is developed and maintained by <a href="http://ottodestruct.com">Otto</a>.</p>
+		<p><a href="http://ottopress.com/wordpress-plugins/simple-twitter-connect/">Simple Twitter Connect</a> is developed and maintained by <a href="http://ottodestruct.com">Otto</a>.</p>
 			<p>He blogs at <a href="http://ottodestruct.com">Nothing To See Here</a> and <a href="http://ottopress.com">Otto on WordPress</a>, posts photos on <a href="http://www.flickr.com/photos/otto42/">Flickr</a>, and chats on <a href="http://twitter.com/otto42">Twitter</a>.</p>
 			<p>You can follow his site on either <a href="http://www.facebook.com/apps/application.php?id=116002660893">Facebook</a> or <a href="http://twitter.com/ottodestruct">Twitter</a>, if you like.</p>
 			<p>If you'd like to <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom">buy him a beer</a>, then he'd be perfectly happy to drink it.</p>

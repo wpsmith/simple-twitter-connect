@@ -4,7 +4,7 @@ Plugin Name: Simple Twitter Connect - Base
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Makes it easy for your site to use Twitter, in a wholly modular way.
 Author: Otto
-Version: 0.11
+Version: 0.12
 Author URI: http://ottodestruct.com
 License: GPL2
 
@@ -29,16 +29,15 @@ License: GPL2
 add_action('init','stc_init');
 function stc_init() {
 	// fast check for authentication requests on plugin load.
+	if (session_id() == '') {
+		session_start();
+	}
 	if(isset($_GET['stc_oauth_start'])) {
 		stc_oauth_start();
 	}
 	if(isset($_GET['oauth_token'])) {
 		stc_oauth_confirm();
 	}
-
-	if (session_id() == '') {
-		session_start();
-	}	
 }
 
 // require PHP 5
@@ -83,6 +82,7 @@ function stc_admin_init(){
 	add_settings_section('stc_main', 'Main Settings', 'stc_section_text', 'stc');
 	if (!defined('STC_CONSUMER_KEY')) add_settings_field('stc_consumer_key', 'Twitter Consumer Key', 'stc_setting_consumer_key', 'stc', 'stc_main');
 	if (!defined('STC_CONSUMER_SECRET')) add_settings_field('stc_consumer_secret', 'Twitter Consumer Secret', 'stc_setting_consumer_secret', 'stc', 'stc_main');
+	add_settings_field('stc_default_button', 'Twitter Default Button', 'stc_setting_default_button', 'stc', 'stc_main');
 }
 
 // add the admin options page
@@ -238,9 +238,11 @@ If you have already created one, please insert your Consumer Key and Consumer Se
 	}
 }
 
-function stc_get_connect_button($action='', $type='authenticate', $image ='Sign-in-with-Twitter-darker') {
+function stc_get_connect_button($action='', $type='authenticate') {
+	$options = get_option('stc_options');
+	if (empty($options['default_button'])) $options['default_button'] = 'Sign-in-with-Twitter-darker';
 	return '<a href="'.get_bloginfo('home').'/?stc_oauth_start=1&stcaction='.urlencode($action).'&loc='.urlencode(stc_get_current_url()).'&type='.urlencode($type).'">'.
-		   '<img border="0" src="'.plugins_url('/images/'.$image.'.png', __FILE__).'" />'.
+		   '<img border="0" src="'.plugins_url('/images/'.$options['default_button'].'.png', __FILE__).'" />'.
 		   '</a>';
 }
 
@@ -262,6 +264,29 @@ function stc_setting_consumer_secret() {
 	if (defined('STC_CONSUMER_SECRET')) return;
 	$options = get_option('stc_options');
 	echo "<input type='text' id='stcconsumersecret' name='stc_options[consumer_secret]' value='{$options['consumer_secret']}' size='40' /> (required)";	
+}
+
+function stc_setting_default_button() {
+	$options = get_option('stc_options');
+	if (empty($options['default_button'])) $options['default_button'] = 'Sign-in-with-Twitter-darker';
+	?>
+	<select name="stc_options[default_button]" id="stc_select_default_button">
+	<option value="Sign-in-with-Twitter-darker" <?php selected('Sign-in-with-Twitter-darker', $options['default_button']); ?>><?php _e('Darker', 'stc'); ?></option>
+	<option value="Sign-in-with-Twitter-darker-small" <?php selected('Sign-in-with-Twitter-darker-small', $options['default_button']); ?>><?php _e('Darker small', 'stc'); ?></option>
+	<option value="Sign-in-with-Twitter-lighter" <?php selected('Sign-in-with-Twitter-lighter', $options['default_button']); ?>><?php _e('Lighter', 'stc'); ?></option>
+	<option value="Sign-in-with-Twitter-lighter-small" <?php selected('Sign-in-with-Twitter-lighter-small', $options['default_button']); ?>><?php _e('Lighter small', 'stc'); ?></option>
+	</select>
+	<br /><br />
+	<img id="stc_select_default_button_preview_image" src="<?php echo plugins_url('/images/'.$options['default_button'].'.png', __FILE__); ?>" />
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery("#stc_select_default_button").change(function() {
+				var selected = jQuery("#stc_select_default_button").val();
+				jQuery("#stc_select_default_button_preview_image").attr('src',"<?php echo plugins_url('/images/', __FILE__); ?>"+selected+".png");
+			});
+		});
+	</script>
+<?php
 }
 
 // this will override the main options if they are pre-defined

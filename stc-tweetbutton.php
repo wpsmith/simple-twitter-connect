@@ -4,7 +4,7 @@ Plugin Name: STC - Tweet Button
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Adds a Tweet button to your content.
 Author: Otto
-Version: 0.12
+Version: 0.13
 Author URI: http://ottodestruct.com
 License: GPL2
 

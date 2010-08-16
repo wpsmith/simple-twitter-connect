@@ -88,8 +88,43 @@ function stc_admin_init(){
 // add the admin options page
 add_action('admin_menu', 'stc_admin_add_page');
 function stc_admin_add_page() {
-	$mypage = add_options_page('Simple Twitter Connect', 'Simple Twitter Connect', 'manage_options', 'stc', 'stc_options_page');
+	global $stc_options_page;
+	$stc_options_page = add_options_page('Simple Twitter Connect', 'Simple Twitter Connect', 'manage_options', 'stc', 'stc_options_page');
 }
+
+function stc_plugin_help($contextual_help, $screen_id, $screen) {
+
+	global $stc_options_page;
+	if ($screen_id == $stc_options_page) {
+
+		$home = home_url('/');
+		$contextual_help = <<< END
+<p>To connect your site to Twitter, you will need a Twitter Application. 
+If you have already created one, please insert your Consumer Key and Consumer Secret below.</p>
+<p><strong>Can't find your key?</strong></p>
+<ol>
+<li>Get a list of your applications from here: <a target="_blank" href="http://dev.twitter.com/apps">Twitter Application List</a></li>
+<li>Select the application you want, then copy and paste the Consumer Key and Consumer Secret from there.</li>
+</ol>
+
+<p><strong>Haven't created an application yet?</strong> Don't worry, it's easy!</p>
+<ol>
+<li>Go to this link to create your application: <a target="_blank" href="http://dev.twitter.com/apps/new">Twitter: Register an Application</a></li>
+<li>Important Settings:<ol>
+<li>Application Type must be set to "Browser".</li>
+<li>Callback URL must be set to <strong>{$home}</strong></li>
+<li>Default Access type must be set to "Read and Write".</li>
+<li>Use Twitter for login must be checked (enabled).</li>
+</ol>
+</li>
+<li>The other application fields can be set up any way you like.</li>
+<li>After creating the application, copy and paste the Consumer Key and Consumer Secret from the Application Details page.</li>
+</ol>
+END;
+	}
+	return $contextual_help;
+}
+add_action('contextual_help', 'stc_plugin_help', 10, 3);
 
 // display the admin options page
 function stc_options_page() {
@@ -226,7 +261,7 @@ If you have already created one, please insert your Consumer Key and Consumer Se
 <li>Go to this link to create your application: <a target="_blank" href="http://dev.twitter.com/apps/new">Twitter: Register an Application</a></li>
 <li>Important Settings:<ol>
 <li>Application Type must be set to "Browser".</li>
-<li>Callback URL must be set to "<?php bloginfo('home'); ?>".</li>
+<li>Callback URL must be set to <strong><?php echo home_url('/') ?></strong></li>
 <li>Default Access type must be set to "Read and Write".</li>
 <li>Use Twitter for login must be checked (enabled).</li>
 </ol>

@@ -11,19 +11,19 @@ License: GPL2
     Copyright 2010  Samuel Wood  (email : otto@ottodestruct.com)
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License version 2, 
-    as published by the Free Software Foundation. 
-    
+    it under the terms of the GNU General Public License version 2,
+    as published by the Free Software Foundation.
+
     You may NOT assume that you can use any other version of the GPL.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
-    The license for this software can likely be found here: 
+
+    The license for this software can likely be found here:
     http://www.gnu.org/licenses/gpl-2.0.html
-    
+
 */
 
 add_action('init','stc_init');
@@ -76,7 +76,7 @@ function stc_admin_init(){
 	$options = get_option('stc_options');
 	if (empty($options['consumer_key']) || empty($options['consumer_secret'])) {
 		add_action('admin_notices', create_function( '', "echo '<div class=\"error\"><p>".sprintf('Simple Twitter Connect needs configuration information on its <a href="%s">settings</a> page.', admin_url('options-general.php?page=stc'))."</p></div>';" ) );
-	} 
+	}
 	wp_enqueue_script('jquery');
 	register_setting( 'stc_options', 'stc_options', 'stc_options_validate' );
 	add_settings_section('stc_main', 'Main Settings', 'stc_section_text', 'stc');
@@ -99,17 +99,17 @@ function stc_plugin_help($contextual_help, $screen_id, $screen) {
 
 		$home = home_url('/');
 		$contextual_help = <<< END
-<p>To connect your site to Twitter, you will need a Twitter Application. 
+<p>To connect your site to Twitter, you will need a Twitter Application.
 If you have already created one, please insert your Consumer Key and Consumer Secret below.</p>
 <p><strong>Can't find your key?</strong></p>
 <ol>
-<li>Get a list of your applications from here: <a target="_blank" href="http://dev.twitter.com/apps">Twitter Application List</a></li>
+<li>Get a list of your applications from here: <a target="_blank" href="http://twitter.com/apps">Twitter Application List</a></li>
 <li>Select the application you want, then copy and paste the Consumer Key and Consumer Secret from there.</li>
 </ol>
 
 <p><strong>Haven't created an application yet?</strong> Don't worry, it's easy!</p>
 <ol>
-<li>Go to this link to create your application: <a target="_blank" href="http://dev.twitter.com/apps/new">Twitter: Register an Application</a></li>
+<li>Go to this link to create your application: <a target="_blank" href="http://twitter.com/apps/new">Twitter: Register an Application</a></li>
 <li>Important Settings:<ol>
 <li>Application Type must be set to "Browser".</li>
 <li>Callback URL must be set to <strong>{$home}</strong></li>
@@ -147,7 +147,7 @@ function stc_options_page() {
 	<div style='width:20em; float:right; background: #fff; border: 1px solid #333; margin: 2px; padding: 5px'>
 		<h3 align='center'>Twitter Status</h3>
 		<?php wp_widget_rss_output('http://status.twitter.com/rss',array('show_date' => 1, 'items' => 10) ); ?>
-	</div>		
+	</div>
 	</td></tr></table>
 	<p class="submit">
 	<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
@@ -155,7 +155,7 @@ function stc_options_page() {
 	</form>
 
 	</div>
-	
+
 <?php
 }
 
@@ -173,7 +173,7 @@ function stc_oauth_start() {
 
 	$_SESSION['stc_callback'] = $_GET['loc'];
 	$_SESSION['stc_callback_action'] = $_GET['stcaction'];
-	
+
 	if ($_GET['type'] == 'authorize') $url=$to->getAuthorizeURL($token);
 	else $url=$to->getAuthenticateURL($token);
 
@@ -194,13 +194,13 @@ function stc_oauth_confirm() {
 	$_SESSION['stc_acc_secret'] = $tok['oauth_token_secret'];
 
 	$to = new TwitterOAuth($options['consumer_key'], $options['consumer_secret'], $tok['oauth_token'], $tok['oauth_token_secret']);
-	
+
 	// this lets us do things actions on the return from twitter and such
 	if ($_SESSION['stc_callback_action']) {
 		do_action('stc_'.$_SESSION['stc_callback_action']);
 		$_SESSION['stc_callback_action'] = ''; // clear the action
 	}
-	
+
 	wp_redirect($_SESSION['stc_callback']);
 	exit;
 }
@@ -208,30 +208,30 @@ function stc_oauth_confirm() {
 // get the user credentials from twitter
 function stc_get_credentials($force_check = false) {
 	// cache the results in the session so we don't do this over and over
-	if (!$force_check && $_SESSION['stc_credentials']) return $_SESSION['stc_credentials']; 
-	
+	if (!$force_check && $_SESSION['stc_credentials']) return $_SESSION['stc_credentials'];
+
 	$_SESSION['stc_credentials'] = stc_do_request('http://twitter.com/account/verify_credentials');
-	
+
 	return $_SESSION['stc_credentials'];
 }
 
 // json is assumed for this, so don't add .xml or .json to the request URL
 function stc_do_request($url, $args = array(), $type = NULL) {
-	
+
 	if ($args['acc_token']) {
 		$acc_token = $args['acc_token'];
 		unset($args['acc_token']);
 	} else {
 		$acc_token = $_SESSION['stc_acc_token'];
 	}
-	
+
 	if ($args['acc_secret']) {
 		$acc_secret = $args['acc_secret'];
 		unset($args['acc_secret']);
 	} else {
 		$acc_secret = $_SESSION['stc_acc_secret'];
 	}
-	
+
 	$options = get_option('stc_options');
 	if (empty($options['consumer_key']) || empty($options['consumer_secret']) ||
 		empty($acc_token) || empty($acc_secret) ) return false;
@@ -248,17 +248,17 @@ function stc_section_text() {
 	$options = get_option('stc_options');
 	if (empty($options['consumer_key']) || empty($options['consumer_secret'])) {
 ?>
-<p>To connect your site to Twitter, you will need a Twitter Application. 
+<p>To connect your site to Twitter, you will need a Twitter Application.
 If you have already created one, please insert your Consumer Key and Consumer Secret below.</p>
 <p><strong>Can't find your key?</strong></p>
 <ol>
-<li>Get a list of your applications from here: <a target="_blank" href="http://dev.twitter.com/apps">Twitter Application List</a></li>
+<li>Get a list of your applications from here: <a target="_blank" href="http://twitter.com/apps">Twitter Application List</a></li>
 <li>Select the application you want, then copy and paste the Consumer Key and Consumer Secret from there.</li>
 </ol>
 
 <p><strong>Haven't created an application yet?</strong> Don't worry, it's easy!</p>
 <ol>
-<li>Go to this link to create your application: <a target="_blank" href="http://dev.twitter.com/apps/new">Twitter: Register an Application</a></li>
+<li>Go to this link to create your application: <a target="_blank" href="http://twitter.com/apps/new">Twitter: Register an Application</a></li>
 <li>Important Settings:<ol>
 <li>Application Type must be set to "Browser".</li>
 <li>Callback URL must be set to <strong><?php echo home_url('/') ?></strong></li>
@@ -292,13 +292,13 @@ function stc_get_current_url() {
 function stc_setting_consumer_key() {
 	if (defined('STC_CONSUMER_KEY')) return;
 	$options = get_option('stc_options');
-	echo "<input type='text' id='stcconsumerkey' name='stc_options[consumer_key]' value='{$options['consumer_key']}' size='40' /> (required)";	
+	echo "<input type='text' id='stcconsumerkey' name='stc_options[consumer_key]' value='{$options['consumer_key']}' size='40' /> (required)";
 }
 
 function stc_setting_consumer_secret() {
 	if (defined('STC_CONSUMER_SECRET')) return;
 	$options = get_option('stc_options');
-	echo "<input type='text' id='stcconsumersecret' name='stc_options[consumer_secret]' value='{$options['consumer_secret']}' size='40' /> (required)";	
+	echo "<input type='text' id='stcconsumersecret' name='stc_options[consumer_secret]' value='{$options['consumer_secret']}' size='40' /> (required)";
 }
 
 function stc_setting_default_button() {
@@ -341,7 +341,7 @@ function stc_options_validate($input) {
 		  $input['consumer_key'] = '';
 		}
 	}
-	
+
 	if (!defined('STC_CONSUMER_SECRET')) {
 		$input['consumer_secret'] = trim($input['consumer_secret']);
 		if(! preg_match('/^[A-Za-z0-9]+$/i', $input['consumer_secret'])) {
@@ -354,13 +354,13 @@ function stc_options_validate($input) {
 }
 
 
-// load the @anywhere script 
+// load the @anywhere script
 add_action('wp_enqueue_scripts','stc_anywhereloader');
 add_action('admin_enqueue_scripts','stc_anywhereloader');
 function stc_anywhereloader() {
 	$options = get_option('stc_options');
-	
-	if (!empty($options['consumer_key'])) {		
+
+	if (!empty($options['consumer_key'])) {
 		wp_enqueue_script( 'twitter-anywhere', "http://platform.twitter.com/anywhere.js?id={$options['consumer_key']}&v=1", array(), '1', false);
 	}
 }

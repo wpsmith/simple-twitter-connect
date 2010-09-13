@@ -11,19 +11,19 @@ License: GPL2
     Copyright 2010  Samuel Wood  (email : otto@ottodestruct.com)
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License version 2, 
-    as published by the Free Software Foundation. 
-    
+    it under the terms of the GNU General Public License version 2,
+    as published by the Free Software Foundation.
+
     You may NOT assume that you can use any other version of the GPL.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
-    The license for this software can likely be found here: 
+
+    The license for this software can likely be found here:
     http://www.gnu.org/licenses/gpl-2.0.html
-    
+
 */
 
 // checks for stc on activation
@@ -42,6 +42,7 @@ register_activation_hook(__FILE__, 'stc_publish_activation_check');
 add_action('admin_menu', 'stc_publish_meta_box_add');
 function stc_publish_meta_box_add() {
 	add_meta_box('stc-publish-div', 'Twitter Publisher', 'stc_publish_meta_box', 'post', 'side');
+	add_meta_box('stc-publish-div', 'Twitter Publisher', 'stc_publish_meta_box', 'page', 'side');
 }
 
 // add the admin sections to the stc page
@@ -62,10 +63,10 @@ function stc_publish_auto_callback() {
 	if (!$options['autotweet_flag']) $options['autotweet_flag'] = false;
 	?>
 	<p><label>Automatically Tweet on Publish: <input type="checkbox" name="stc_options[autotweet_flag]" value="1" <?php checked('1', $options['autotweet_flag']); ?> /></label></p>
-	<?php 
+	<?php
 	$tw = stc_get_credentials(true);
 	if ($tw->screen_name) echo "<p>Currently logged in as: <strong>{$tw->screen_name}</strong></p>";
-	
+
 	if ($options['autotweet_name']) {
 		echo "<p>Autotweet set to Twitter User: <strong>{$options['autotweet_name']}</strong></p>";
 	} else {
@@ -92,30 +93,30 @@ function stc_publish_preauth() {
 	$tw = stc_get_credentials(true);
 
 	$options = get_option('stc_options');
-	
+
 	// save the special settings
 	if ($tw->screen_name) {
 		$options['autotweet_name'] = $tw->screen_name;
 		$options['autotweet_token'] = $_SESSION['stc_acc_token'];
 		$options['autotweet_secret'] = $_SESSION['stc_acc_secret'];
 	}
-	
+
 	update_option('stc_options', $options);
 }
 
 function stc_publish_meta_box( $post ) {
 	$options = get_option('stc_options');
-	
+
 	if ($post->post_status == 'private') {
 		echo '<p>Why would you put private posts on Twitter, for all to see?</p>';
 		return;
 	}
-	
+
 	if ($post->post_status !== 'publish') {
 		echo '<p>After publishing the post, you can send it to Twitter from here.</p>';
 		return;
 	}
-	
+
 ?><div id="stc-publish-buttons">
 <div id="stc-manual-tweetbox" style="width:auto; padding-right:10px;"></div>
 <script type="text/javascript">
@@ -136,21 +137,21 @@ function stc_publish_meta_box( $post ) {
 add_action('transition_post_status','stc_publish_auto_check',10,3);
 function stc_publish_auto_check($new, $old, $post) {
 	if ($new == 'publish' && $old != 'publish') {
-		if ($post->post_type == 'post' || $post->post_type == 'page') 
+		if ($post->post_type == 'post' || $post->post_type == 'page')
 			stc_publish_automatic($post->ID, $post);
 	}
 }
 
 function stc_publish_automatic($id, $post) {
-	
+
 	// check to make sure post is published
 	if ($post->post_status !== 'publish') return;
-	
+
 	// check options to see if we need to send to FB at all
 	$options = get_option('stc_options');
-	if (!$options['autotweet_flag'] || !$options['autotweet_token'] || !$options['autotweet_secret'] || !$options['publish_text']) 
+	if (!$options['autotweet_flag'] || !$options['autotweet_token'] || !$options['autotweet_secret'] || !$options['publish_text'])
 		return;
-	
+
 	// args to send to twitter
 	$args=array();
 
@@ -158,7 +159,7 @@ function stc_publish_automatic($id, $post) {
 
 	$args['acc_token'] = $options['autotweet_token'];
 	$args['acc_secret'] = $options['autotweet_secret'];
-	
+
 	$resp = stc_do_request('http://api.twitter.com/1/statuses/update',$args);
 }
 
@@ -186,13 +187,13 @@ add_filter('stc_validate_options','stc_publish_validate_options');
 function stc_publish_validate_options($input) {
 	$options = get_option('stc_options');
 	if ($input['autotweet_flag'] != 1) $input['autotweet_flag'] = 0;
-	
+
 	$input['publish_text'] = trim($input['publish_text']);
-	
+
 	// preserve existing vars which are not inputs
 	$input['autotweet_name'] = $options['autotweet_name'];
 	$input['autotweet_token'] = $options['autotweet_token'];
 	$input['autotweet_secret'] = $options['autotweet_secret'];
-	
+
 	return $input;
 }

@@ -137,8 +137,13 @@ function stc_publish_meta_box( $post ) {
 add_action('transition_post_status','stc_publish_auto_check',10,3);
 function stc_publish_auto_check($new, $old, $post) {
 	if ($new == 'publish' && $old != 'publish') {
-		if ($post->post_type == 'post' || $post->post_type == 'page')
-			stc_publish_automatic($post->ID, $post);
+		$post_types = get_post_types( array('public' => true), 'objects' );
+		foreach ( $post_types as $post_type ) {
+			if ( $post->post_type == $post_type->name ) {
+				stc_publish_automatic($post->ID, $post);
+				break;
+			}
+		}
 	}
 }
 

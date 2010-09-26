@@ -50,14 +50,14 @@ $stc_tweetbutton_defaults = array(
 		
 /**
  * Simple tweet button
- *
- * @param string $source Source that the RT will appear to be from.
- * @param int $post_id An optional post ID.
  */
 function get_stc_tweetbutton($args='') {
 	global $sfc_like_defaults;
 	$args = wp_parse_args($args, $stc_tweetbutton_defaults);
 	extract($args);
+	
+	// fix for missing ID in some cases (some shortlink plugins don't work well with ID = zero)
+	if (!$id) $id = get_the_ID();
 	
 	$options = get_option('stc_options');
 	if ($options['tweetbutton_source']) $source = $options['tweetbutton_source'];

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
 Tested up to: 3.1
-Stable tag: 0.12
+Stable tag: 0.13
 
 == Description ==
 
@@ -110,6 +110,10 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Upgrade Notice ==
 
+= 0.13 =
+* Minor bug fixes
+* Custom Post Types support for auto-publish.
+
 = 0.12 = 
 * Bug fix release. Logins may not have worked with 0.11 for all people.
 * New option in settings screen to choose what your Twitter sign in button looks like, as apologies for the need for the bug fix release. :)
@@ -118,6 +122,14 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 * Added official Twitter Tweet button. This is a replacement for the TweetMeme button. Full support for styling and related users.
 
 == Changelog ==
+
+= 0.13 =
+* Fix tweet button issues. Tweet links in feeds and such work better now. Colons don't disappear from tweets.
+* Added contextual help screens.
+* Change links in help to point to proper place to set up apps.
+* Publish meta box shows up on Pages now.
+* Minor issues with some shortlink plugins corrected.
+* Custom Post Types support in Publish. Auto-publish *should* now work on custom post types. No guarantees.
 
 = 0.12 =
 * Modified tweet button to use custom shortlinks (if any). This can solve the copy/paste problem for manual RT's. Also makes searching work better.

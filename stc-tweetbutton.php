@@ -52,7 +52,7 @@ $stc_tweetbutton_defaults = array(
  * Simple tweet button
  */
 function get_stc_tweetbutton($args='') {
-	global $sfc_like_defaults;
+	global $stc_tweetbutton_defaults;
 	$args = wp_parse_args($args, $stc_tweetbutton_defaults);
 	extract($args);
 	

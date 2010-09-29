@@ -45,7 +45,9 @@ $stc_tweetbutton_defaults = array(
 	'style'=>'vertical',
 	'source'=>'',
 	'related'=>'',
-	'text'=>'', 
+	'text'=>'',
+	'url'=>'',
+	'counturl'=>'',
 );	
 		
 /**
@@ -63,8 +65,9 @@ function get_stc_tweetbutton($args='') {
 	if (empty($source)) $source = $options['tweetbutton_source'];
 	if (empty($style)) $style = $options['tweetbutton_style'];
 	if (empty($related)) $related = $options['tweetbutton_related'];
-	$url = wp_get_shortlink($id);
-	$counturl = get_permalink($id);
+	if (empty($url)) $url = wp_get_shortlink($id);
+	if (empty($url)) $url = get_permalink($id); // still empty? try the permalink instead
+	if (empty($counturl)) $counturl = get_permalink($id);
 	$post = get_post($id);
 	if (empty($text)) $text = esc_attr(strip_tags($post->post_title));
 	

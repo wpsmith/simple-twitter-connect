@@ -172,7 +172,7 @@ function stc_tweetbutton_style() {
 function stc_tweetbutton_related() {
 	$options = get_option('stc_options');
 	if (!$options['tweetbutton_related']) $options['tweetbutton_related'] = '';
-	echo "<input type='text' id='stc-tweetbutton-related' name='stc_options[tweetbutton_related]' value='{$options['tweetbutton_related']}' size='40' /> Users that the person will be suggested to follow. Max 2, separate with colon. Example otto42:ottodestruct";
+	echo "<input type='text' id='stc-tweetbutton-related' name='stc_options[tweetbutton_related]' value='{$options['tweetbutton_related']}' size='40' /> Users that the person will be suggested to follow. Max 2, separate with comma. Example: otto42,ottodestruct";
 
 }
 

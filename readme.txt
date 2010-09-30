@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 2.9
 Tested up to: 3.1
-Stable tag: 0.13
+Stable tag: 0.14
 
 == Description ==
 
@@ -110,6 +110,9 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Upgrade Notice ==
 
+= 0.14 =
+* Several tweet button fixes. Normally I wouldn't push another update so soon, but this one seemed necessary.
+
 = 0.13 =
 * Minor bug fixes
 * Custom Post Types support for auto-publish.
@@ -122,6 +125,11 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 * Added official Twitter Tweet button. This is a replacement for the TweetMeme button. Full support for styling and related users.
 
 == Changelog ==
+
+= 0.14 =
+* Tweet button doesn't show plus signs instead of spaces any more.
+* Minor documentation and regexp change (colons not the same in the data-related anymore).
+* Fix default styling of tweet button.
 
 = 0.13 =
 * Fix tweet button issues. Tweet links in feeds and such work better now. Colons don't disappear from tweets.

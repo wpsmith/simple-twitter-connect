@@ -42,12 +42,10 @@ register_activation_hook(__FILE__, 'stc_tweetbutton_activation_check');
 global $stc_tweetbutton_defaults;
 $stc_tweetbutton_defaults = array(
 	'id'=>0,
-	'style'=>'', // none, vertical, or horizontal
+	'style'=>'vertical',
 	'source'=>'',
 	'related'=>'',
-	'text'=>'',
-	'url'=>'',
-	'counturl'=>'',
+	'text'=>'', 
 );	
 		
 /**
@@ -62,24 +60,24 @@ function get_stc_tweetbutton($args='') {
 	if (!$id) $id = get_the_ID();
 	
 	$options = get_option('stc_options');
-	if (empty($source)) $source = $options['tweetbutton_source'];
-	if (empty($style)) $style = $options['tweetbutton_style'];
-	if (empty($related)) $related = $options['tweetbutton_related'];
-	if (empty($url)) $url = wp_get_shortlink($id);
-	if (empty($url)) $url = get_permalink($id); // still empty? try the permalink instead
-	if (empty($counturl)) $counturl = get_permalink($id);
+	if ($options['tweetbutton_source']) $source = $options['tweetbutton_source'];
+	if ($options['tweetbutton_style']) $style = $options['tweetbutton_style'];
+	if ($options['tweetbutton_related']) $related = $options['tweetbutton_related'];
+	$url = wp_get_shortlink($id);
+	$counturl = get_permalink($id);
 	$post = get_post($id);
-	if (empty($text)) $text = esc_attr(strip_tags($post->post_title));
+	$text = esc_attr(strip_tags($post->post_title));;
 	
 	if (!empty($related)) $datarelated = " data-related='{$related}'";
 	
 	$query = http_build_query(array(
 		'url'     => $url,
-		'text'    => $text,
 		'count'   => $style,
 		'related' => $related,
 		));
-		
+
+	$query .= '&text='.rawurlencode($text);
+
 	$out = "<a href='http://twitter.com/share?{$query}' class='twitter-share-button' data-text='{$text}' data-url='{$url}' data-counturl='{$counturl}' data-count='{$style}' data-via='{$source}'{$datarelated}>Tweet</a>";
 	return $out;
 }

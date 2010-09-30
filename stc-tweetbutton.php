@@ -42,7 +42,7 @@ register_activation_hook(__FILE__, 'stc_tweetbutton_activation_check');
 global $stc_tweetbutton_defaults;
 $stc_tweetbutton_defaults = array(
 	'id'=>0,
-	'style'=>'vertical',
+	'style'=>'', // none, vertical, or horizontal
 	'source'=>'',
 	'related'=>'',
 	'text'=>'',

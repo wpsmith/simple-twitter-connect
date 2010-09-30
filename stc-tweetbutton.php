@@ -195,7 +195,7 @@ function stc_tweetbutton_validate_options($input) {
 	if (!$input['tweetbutton_related']) $input['tweetbutton_related'] = '';
 	else {
 		// only alnum and underscore allowed in twitter names
-		$input['tweetbutton_related'] = preg_replace('/[^a-zA-Z0-9_:\s]/', '', $input['tweetbutton_related']);
+		$input['tweetbutton_related'] = preg_replace('/[^a-zA-Z0-9_,:\s]/', '', $input['tweetbutton_related']);
 	}
 
 	return $input;

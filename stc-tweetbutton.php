@@ -186,7 +186,7 @@ function stc_tweetbutton_validate_options($input) {
 			$input['tweetbutton_style'] = 'none';
 	}
 	
-	if (!$input['tweetbutton_source']) $input['tweetbutton_source'] = 'ottodestruct';
+	if (!$input['tweetbutton_source']) $input['tweetbutton_source'] = '';
 	else {
 		// only alnum and underscore allowed in twitter names
 		$input['tweetbutton_source'] = preg_replace('/[^a-zA-Z0-9_\s]/', '', $input['tweetbutton_source']);

@@ -44,7 +44,7 @@ Hopefully, a future version of WordPress will make this simpler.
 */
 
 // check for logout request
-add_action('init','stc_comm_logout');
+add_action('init','stc_comm_logout',20);
 function stc_comm_logout() {
 	if ($_GET['stc-logout']) { 
 		session_unset();

@@ -147,5 +147,7 @@ function stc_login_check($user) {
 
 add_action('wp_logout','stc_login_logout');
 function stc_login_logout() {
-	session_unset();	
+	session_start();
+	session_unset();
+	session_destroy();
 }

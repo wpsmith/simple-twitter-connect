@@ -47,7 +47,9 @@ Hopefully, a future version of WordPress will make this simpler.
 add_action('init','stc_comm_logout',20);
 function stc_comm_logout() {
 	if ($_GET['stc-logout']) { 
+		session_start();
 		session_unset();
+		session_destroy();
 		$page = stc_get_current_url();
 		if (strpos($page, "?") !== false) $page = reset(explode("?", $page));
 		wp_redirect($page);

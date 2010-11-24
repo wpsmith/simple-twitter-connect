@@ -183,7 +183,8 @@ function stc_get_default_tweet($id) {
 	}
 
 	$output = $options['publish_text'];
-	$output = str_replace('%title%', get_the_title($id), $output );
+	$title = str_replace('&nbsp;',' ',get_the_title($id) ); 
+	$output = str_replace('%title%', $title, $output );
 	$output = str_replace('%url%', $link, $output );
 
 	return $output;

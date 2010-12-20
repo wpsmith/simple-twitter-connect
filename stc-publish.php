@@ -181,11 +181,15 @@ function stc_get_default_tweet($id) {
 		// no shortlink, try the full permalink
 		$link = get_permalink($id);
 	}
+	
+	$link = apply_filters('stc_publish_link', $link, $id);
 
 	$output = $options['publish_text'];
 	$title = str_replace('&nbsp;',' ',get_the_title($id) ); 
 	$output = str_replace('%title%', $title, $output );
 	$output = str_replace('%url%', $link, $output );
+
+	$output = apply_filters('stc_publish_text', $output, $id);
 
 	return $output;
 }

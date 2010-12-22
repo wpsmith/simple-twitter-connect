@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: STC - Follow Button Widget
-Plugin URI: http://ottopress.com/wordpress-plugins/simple-facebook-connect/
+Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Create a follow button in your sites sidebar.
 Author: Otto
 Version: 0.14

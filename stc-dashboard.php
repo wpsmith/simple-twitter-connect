@@ -4,7 +4,7 @@ Plugin Name: STC - Twitter Dashboard
 Plugin URI: http://www.avendimedia.com
 Description: Allows you to tweet from the WordPress dashboard.
 Author: John Bloch - Avendi Media, Inc.
-Version: 0.14
+Version: 0.15
 Author URI: http://www.avendimedia.com
 License: GPL2
 

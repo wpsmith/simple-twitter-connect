@@ -4,7 +4,7 @@ Plugin Name: STC - Followers Widget
 Plugin URI: http://ottopress.com/wordpress-plugins/simple-twitter-connect/
 Description: Show a list of your followers in the sidebar. See plugin code for CSS styling to add to your theme.
 Author: Otto
-Version: 0.14
+Version: 0.15
 Author URI: http://ottodestruct.com
 License: GPL2
 

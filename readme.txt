@@ -110,6 +110,9 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Upgrade Notice ==
 
+= 0.15 =
+* Minor fixes for minor things
+
 = 0.14 =
 * Several tweet button fixes. Normally I wouldn't push another update so soon, but this one seemed necessary.
 
@@ -125,6 +128,13 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 * Added official Twitter Tweet button. This is a replacement for the TweetMeme button. Full support for styling and related users.
 
 == Changelog ==
+
+= 0.15 =
+* Remove default source for tweet button.
+* Logout fix.
+* Fix &nbsp; in tweets for some cases
+* Add twitter publisher filters
+* Fix plugin URI
 
 = 0.14 =
 * Tweet button doesn't show plus signs instead of spaces any more.

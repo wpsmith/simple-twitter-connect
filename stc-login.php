@@ -151,3 +151,13 @@ function stc_login_logout() {
 	session_unset();
 	session_destroy();
 }
+
+// add the twitter icon to the admin bar
+add_filter('admin_user_info_links','stc_login_admin_header');
+function stc_login_admin_header($links) {
+	$user = wp_get_current_user();
+	$twuid = get_user_meta($user->ID, 'twuid', true);
+	$icon = plugins_url('/images/tw-icon.png', __FILE__);
+	if ($twuid) $links[7]="<a href='http://twitter.com/$twuid'><img src='$icon' /></a>";
+	return $links;
+}

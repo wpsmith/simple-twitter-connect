@@ -137,7 +137,7 @@ function stc_comm_footer_script() {
 	?>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		var ajax_url = '<?php echo admin_url("admin-ajax.php"); ?>';
+		var ajax_url = '<?php echo admin_url("admin-ajax.php", null); ?>';
 		var data = {
 			action: 'stc_comm_get_display'
 		}

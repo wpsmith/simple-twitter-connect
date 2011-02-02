@@ -164,6 +164,8 @@ function stc_publish_automatic($id, $post) {
 
 	$args['acc_token'] = $options['autotweet_token'];
 	$args['acc_secret'] = $options['autotweet_secret'];
+	
+	$args = apply_filters('stc_publish_automatic', $args, $post);
 
 	$resp = stc_do_request('http://api.twitter.com/1/statuses/update',$args);
 }

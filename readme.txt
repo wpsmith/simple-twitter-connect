@@ -108,25 +108,6 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 3. Simple Facebook Connect and Simple Twitter Connect button on comments form.
 4. Login info (before styling) after using Twitter connect button on comments form.
 
-== Upgrade Notice ==
-
-= 0.15 =
-* Minor fixes for minor things
-
-= 0.14 =
-* Several tweet button fixes. Normally I wouldn't push another update so soon, but this one seemed necessary.
-
-= 0.13 =
-* Minor bug fixes
-* Custom Post Types support for auto-publish.
-
-= 0.12 = 
-* Bug fix release. Logins may not have worked with 0.11 for all people.
-* New option in settings screen to choose what your Twitter sign in button looks like, as apologies for the need for the bug fix release. :)
-
-= 0.11 =
-* Added official Twitter Tweet button. This is a replacement for the TweetMeme button. Full support for styling and related users.
-
 == Changelog ==
 
 = 0.15 =

@@ -78,7 +78,7 @@ function get_stc_tweetbutton($args='') {
 
 	$query .= '&text='.rawurlencode($text);
 
-	$out = "<a href='http://twitter.com/share?{$query}' class='twitter-share-button' data-text='{$text}' data-url='{$url}' data-counturl='{$counturl}' data-count='{$style}' data-via='{$source}'{$datarelated}>Tweet</a>";
+	$out = "<a href='http://twitter.com/share?{$query}' class='twitter-share-button' data-text='{$text}' data-url='{$url}' data-counturl='{$counturl}' data-count='{$style}' data-via='{$source}'{$datarelated}></a>";
 	return $out;
 }
 

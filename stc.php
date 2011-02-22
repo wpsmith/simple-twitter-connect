@@ -358,6 +358,8 @@ function stc_options_validate($input) {
 add_action('wp_enqueue_scripts','stc_anywhereloader');
 add_action('admin_enqueue_scripts','stc_anywhereloader');
 function stc_anywhereloader() {
+	if (is_ssl()) return; // Twitter anywhere does not support SSL, period. See https://groups.google.com/d/msg/twitter-dev-anywhere/mgOahqGhKfw/4w-xex7BCO4J
+	
 	$options = get_option('stc_options');
 
 	if (!empty($options['consumer_key'])) {

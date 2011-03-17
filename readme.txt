@@ -14,7 +14,7 @@ First, you activate and set up the base plugin, which makes your site have basic
 
 Bonus: Unlike other Twitter plugins for WordPress, this one helps you create your own Twitter application and identity, so your tweets from here show up as being from Your Blog, not from some plugin system. You'll never see "posted by Simple Twitter Connect" in your tweet stream, you'll see "posted by Your Blog Name". Great way to drive traffic back to your own site and to see your own Twitter userbase.
 
-Requires WordPress 2.9 and PHP 5. 
+Requires WordPress 3.0 and PHP 5. 
 
 **Current add-ons**
 

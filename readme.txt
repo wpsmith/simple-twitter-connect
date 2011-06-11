@@ -116,6 +116,7 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 * Fix &nbsp; in tweets for some cases
 * Add twitter publisher filters
 * Fix plugin URI
+* Add per-post auto-tweet checkbox option in publish box
 
 = 0.14 =
 * Tweet button doesn't show plus signs instead of spaces any more.

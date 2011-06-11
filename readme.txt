@@ -3,8 +3,8 @@ Contributors: Otto42
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 3.0
-Tested up to: 3.1
-Stable tag: 0.14
+Tested up to: 3.2
+Stable tag: 0.15
 
 == Description ==
 
@@ -194,5 +194,4 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 * Minor internal design changes.
 
 = 0.1 =
-
 * Initial release

@@ -363,6 +363,6 @@ function stc_anywhereloader() {
 	$options = get_option('stc_options');
 
 	if (!empty($options['consumer_key'])) {
-		wp_enqueue_script( 'twitter-anywhere', "http://platform.twitter.com/anywhere.js?id={$options['consumer_key']}&v=1", array(), '1', false);
+		wp_enqueue_script( 'twitter-anywhere', "http://platform.twitter.com/anywhere.js?id={$options['consumer_key']}&v=1", array(), null, false);
 	}
 }

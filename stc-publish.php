@@ -164,7 +164,7 @@ function stc_publish_automatic($id, $post) {
 	// check to make sure post is published
 	if ($post->post_status !== 'publish') return;
 	
-	if (empty($_POST['stc_auto_publish'])) return;
+	if ( empty($_POST['stc_auto_publish']) && !defined('DOING_CRON') && !defined('IFRAME_REQUEST') ) return;
 
 	// check options to see if we need to send to FB at all
 	$options = get_option('stc_options');

@@ -164,7 +164,7 @@ function stc_oauth_start() {
 	if (empty($options['consumer_key']) || empty($options['consumer_secret'])) return false;
 	include_once "twitterOAuth.php";
 
-	$to = new TwitterOAuth($options['consumer_key'], $options['consumer_secret']);
+	$to = new SimpleTwitterOAuth($options['consumer_key'], $options['consumer_secret']);
 	$tok = $to->getRequestToken();
 
 	$token = $tok['oauth_token'];
@@ -186,14 +186,14 @@ function stc_oauth_confirm() {
 	if (empty($options['consumer_key']) || empty($options['consumer_secret'])) return false;
 	include_once "twitterOAuth.php";
 
-	$to = new TwitterOAuth($options['consumer_key'], $options['consumer_secret'], $_SESSION['stc_req_token'], $_SESSION['stc_req_secret']);
+	$to = new SimpleTwitterOAuth($options['consumer_key'], $options['consumer_secret'], $_SESSION['stc_req_token'], $_SESSION['stc_req_secret']);
 
 	$tok = $to->getAccessToken();
 
 	$_SESSION['stc_acc_token'] = $tok['oauth_token'];
 	$_SESSION['stc_acc_secret'] = $tok['oauth_token_secret'];
 
-	$to = new TwitterOAuth($options['consumer_key'], $options['consumer_secret'], $tok['oauth_token'], $tok['oauth_token_secret']);
+	$to = new SimpleTwitterOAuth($options['consumer_key'], $options['consumer_secret'], $tok['oauth_token'], $tok['oauth_token_secret']);
 
 	// this lets us do things actions on the return from twitter and such
 	if ($_SESSION['stc_callback_action']) {
@@ -238,7 +238,7 @@ function stc_do_request($url, $args = array(), $type = NULL) {
 
 	include_once "twitterOAuth.php";
 
-	$to = new TwitterOAuth($options['consumer_key'], $options['consumer_secret'], $acc_token, $acc_secret);
+	$to = new SimpleTwitterOAuth($options['consumer_key'], $options['consumer_secret'], $acc_token, $acc_secret);
 	$json = $to->OAuthRequest($url.'.json', $args, $type);
 
 	return json_decode($json);

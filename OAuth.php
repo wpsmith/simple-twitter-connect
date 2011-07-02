@@ -3,11 +3,11 @@
 
 /* Generic exception class
  */
-if (!class_exists('OAuthException')) :
+if (!class_exists('OAuthConsumer')) :
+
 class OAuthException extends Exception {
   // pass
 }
-endif;
 
 class OAuthConsumer {
   public $key;
@@ -774,3 +774,5 @@ class OAuthUtil {
     return implode('&', $pairs);
   }
 }
+
+endif;

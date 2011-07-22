@@ -209,6 +209,7 @@ function stc_get_default_tweet($id) {
 
 	return $output;
 }
+add_filter('stc_publish_text','strip_tags');
 
 add_filter('stc_validate_options','stc_publish_validate_options');
 function stc_publish_validate_options($input) {

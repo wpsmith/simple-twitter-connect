@@ -147,25 +147,11 @@ function stc_publish_auto_check($new, $old, $post) {
 	}
 }
 
-add_action('post_submitbox_misc_actions','stc_publish_check_box');
-function stc_publish_check_box() {
-	global $post;
-	$options = get_option('stc_options');
-	if ($post->post_status == 'publish') return;
-?>
-<div class="misc-pub-section">
-<input type="checkbox" <?php checked($options['autotweet_flag'],true); ?> name="stc_auto_publish" /> Auto-publish post to Twitter (STC)
-</div>
-<?php 
-}
-
 function stc_publish_automatic($id, $post) {
 
 	// check to make sure post is published
 	if ($post->post_status !== 'publish') return;
 	
-	if ( empty($_POST['stc_auto_publish']) && !defined('DOING_CRON') && !defined('IFRAME_REQUEST') ) return;
-
 	// check options to see if we need to send to FB at all
 	$options = get_option('stc_options');
 	if (!$options['autotweet_flag'] || !$options['autotweet_token'] || !$options['autotweet_secret'] || !$options['publish_text'])

@@ -110,6 +110,13 @@ The WordPress.com stats plugin implements this, and it provides shortlinks to "w
 
 == Changelog ==
 
+= 0.16 =
+* Bugfix release.
+* Change some class names to avoid conflicts with other plugins.
+* Remove versioning on twitter-anywhere JS
+* Remove checkbox on publisher. It just didn't work the way people expected it to work.
+* Remove rawurlencode on tweetbutton text. Causes weird amp; issues.
+
 = 0.15 =
 * Remove default source for tweet button.
 * Logout fix.

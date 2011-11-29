@@ -3,7 +3,7 @@ Contributors: Otto42
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=otto%40ottodestruct%2ecom
 Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 3.0
-Tested up to: 3.2
+Tested up to: 3.3
 Stable tag: 0.15
 
 == Description ==
@@ -46,7 +46,8 @@ http://twitter.com/ottodestruct
 == Installation ==
 
 1. Upload the files to the `/wp-content/plugins/simple-twitter-connect/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Activate the "Simple Twitter Connect - Base" plugin through the 'Plugins' menu in WordPress
+1. After setting up the base plugin, you can activate the sub-plugins.
 
 == Frequently Asked Questions ==
 

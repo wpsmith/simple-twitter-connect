@@ -5,6 +5,8 @@ Tags: twitter, connect, simple, otto, otto42, javascript
 Requires at least: 3.0
 Tested up to: 3.3
 Stable tag: 0.15
+License: GPLv2
+License URI: http://www.opensource.org/licenses/GPL-2.0
 
 == Description ==
 

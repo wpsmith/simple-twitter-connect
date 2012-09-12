@@ -259,7 +259,7 @@ function comment_user_details_end() { echo '</div>'; }
 
 
 
-// generate facebook avatar code for Twitter user comments
+// generate avatar code for Twitter user comments
 add_filter('get_avatar','stc_comm_avatar', 10, 5);
 function stc_comm_avatar($avatar, $id_or_email, $size = '96', $default = '', $alt = false) {
 	// check to be sure this is for a comment

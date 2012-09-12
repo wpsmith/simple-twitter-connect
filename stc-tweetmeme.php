@@ -47,7 +47,14 @@ register_activation_hook(__FILE__, 'stc_tweetmeme_activation_check');
 function get_stc_tweetmeme_button($source = '', $id = 0) {
 	if (!$source) {
 		$options = get_option('stc_options');
-		if (!$options['tweetmeme_source']) $source = 'tweetmeme';
+		
+		// remove me as the source, tired of the spam
+		if ($options['tweetmeme_source'] == 'ottodestruct') {
+			$options['tweetmeme_source'] = '';
+			update_option('stc_options',$options);
+		}
+		
+		if (!$options['tweetmeme_source']) $source = '';
 		else $source = $options['tweetmeme_source'];
 	}
 	$url = get_permalink($id);
@@ -116,7 +123,7 @@ function stc_tweetmeme_section_callback() {
 
 function stc_tweetmeme_source() {
 	$options = get_option('stc_options');
-	if (!$options['tweetmeme_source']) $options['tweetmeme_source'] = 'tweetmeme';
+	if (!$options['tweetmeme_source']) $options['tweetmeme_source'] = '';
 	echo "<input type='text' id='stc-tweetmeme-source' name='stc_options[tweetmeme_source]' value='{$options['tweetmeme_source']}' size='40' /> (Username that appears to be RT'd)";
 }
 
@@ -137,7 +144,7 @@ function stc_tweetmeme_validate_options($input) {
 			$input['tweetmeme_position'] = 'manual';
 	}
 	
-	if (!$input['tweetmeme_source']) $input['tweetmeme_source'] = 'tweetmeme';
+	if (!$input['tweetmeme_source']) $input['tweetmeme_source'] = '';
 	else {
 		// only alnum and underscore allowed in twitter names
 		$input['tweetmeme_source'] = preg_replace('/[^a-zA-Z0-9_\s]/', '', $input['tweetmeme_source']);

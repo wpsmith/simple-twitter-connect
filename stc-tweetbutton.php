@@ -55,6 +55,13 @@ function get_stc_tweetbutton($args='') {
 	global $stc_tweetbutton_defaults;
 
 	$options = get_option('stc_options');
+
+	// remove me as the source, tired of the spam on that account
+	if ($options['tweetbutton_source'] == 'ottodestruct') {
+		$options['tweetbutton_source'] = '';
+		update_option('stc_options',$options);
+	}
+
 	if (!empty($options['tweetbutton_source'])) $stc_tweetbutton_defaults['source'] = $options['tweetbutton_source'];
 	if (!empty($options['tweetbutton_style'])) $stc_tweetbutton_defaults['style'] = $options['tweetbutton_style'];
 	if (!empty($options['tweetbutton_related'])) $stc_tweetbutton_defaults['related'] = $options['tweetbutton_related'];

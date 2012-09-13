@@ -170,6 +170,16 @@ function stc_publish_automatic($id, $post) {
 	$resp = stc_do_request('http://api.twitter.com/1/statuses/update',$args);
 }
 
+function stc_publish_send_tweet($status) {
+	$options = get_option('stc_options');
+	$args=array();
+	$args['status'] = $status;
+	$args['acc_token'] = $options['autotweet_token'];
+	$args['acc_secret'] = $options['autotweet_secret'];	
+	$args = apply_filters('stc_publish_send_tweet', $args );
+	$resp = stc_do_request('http://api.twitter.com/1/statuses/update',$args);
+}
+
 function stc_get_default_tweet($id) {
 	$options = get_option('stc_options');
 	$link = '';
@@ -178,23 +188,32 @@ function stc_get_default_tweet($id) {
 		// use the shortlink if it's available
 		$link = wp_get_shortlink($id);
 	}
+	$fulllink = get_permalink($id);
 	
 	if (empty($link)) {
 		// no shortlink, try the full permalink
-		$link = get_permalink($id);
+		$link = $fulllink;
 	}
 	
 	$link = apply_filters('stc_publish_link', $link, $id);
 
 	$output = $options['publish_text'];
-	$title = str_replace('&nbsp;',' ',get_the_title($id) ); 
+	$title = str_replace('&nbsp;',' ',get_the_title($id) );
 	$output = str_replace('%title%', $title, $output );
 	$output = str_replace('%url%', $link, $output );
+	
+	// fullurl added to stop some complaints. But it doesn't work well if your tweet becomes longer than 140. I do not recommend using it.
+	$output = str_replace('%fullurl%', $fulllink, $output );
 
+	// decode html entities (although twitter's website displays them fine, some twitter clients don't)
+	$output = html_entity_decode( $output, ENT_QUOTES, 'UTF-8' );
+	
 	$output = apply_filters('stc_publish_text', $output, $id);
 
 	return $output;
 }
+
+// strip tags added as a filter because some people want to remove this filter sometimes
 add_filter('stc_publish_text','strip_tags');
 
 add_filter('stc_validate_options','stc_publish_validate_options');
